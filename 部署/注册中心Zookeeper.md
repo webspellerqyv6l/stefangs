@@ -17,3 +17,8 @@ tar -xvf zookeeper-3.5.3-beta.tar.gz
 ```
 106.13.122.117:2181
 ```
+
+
+Zookeeper 查看工具：
+
+http://www.52itstyle.top/thread-37713-1-1.html
