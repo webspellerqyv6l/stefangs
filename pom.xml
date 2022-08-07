@@ -204,6 +204,31 @@
 					</dependency>
 				</dependencies>
 			</plugin>
+			<!-- 邮件服务接口 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>service</id>
+						<phase>package</phase>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+						<configuration>
+							<classesDirectory>${project.build.directory}/classes</classesDirectory>
+							<finalName>pay-service</finalName>
+							<outputDirectory>${project.build.directory}</outputDirectory>
+							<includes>
+								<include>com/itstyle/modules/alipay/service/*.*</include>
+								<include>com/itstyle/modules/unionpay/service/*.*</include>
+								<include>com/itstyle/modules/weixinpay/service/*.*</include>
+								<include>com/itstyle/common/model/*.*</include>
+							</includes>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 </project>

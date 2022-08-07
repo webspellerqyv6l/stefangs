@@ -16,7 +16,7 @@ import com.itstyle.modules.weixinpay.util.ConfigUtil;
 public class InitPay implements ApplicationRunner{
 	
 	@Override
-    public void run(ApplicationArguments var) throws Exception{
+    public void run(ApplicationArguments var){
 		//初始化 支付宝-微信-银联相关参数,涉及机密,此文件不会提交,请自行配置相关参数并加载
 		Configs.init("zfbinfo.properties");//支付宝
 		ConfigUtil.init("wxinfo.properties");//微信

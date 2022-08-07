@@ -1,7 +1,8 @@
 package com.itstyle.modules.weixinpay.service;
 
+import com.alibaba.dubbo.config.annotation.Service;
 import com.itstyle.common.model.Product;
-
+@Service
 public interface IWeixinPayService {
 	/**
 	 * 微信支付下单(模式二)

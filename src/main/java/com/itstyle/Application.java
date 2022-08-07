@@ -1,11 +1,7 @@
 package com.itstyle;
-import java.io.IOException;
-
 import org.apache.log4j.Logger;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
@@ -25,12 +21,10 @@ import com.alibaba.dubbo.spring.boot.annotation.EnableDubboConfiguration;
  */
 @EnableDubboConfiguration
 @SpringBootApplication
-//@ImportResource({"classpath:spring-context-dubbo.xml"})
 public class Application extends WebMvcConfigurerAdapter {
 	private static final Logger logger = Logger.getLogger(Application.class);
 
-	public static void main(String[] args) throws InterruptedException,
-			IOException {
+	public static void main(String[] args){
 		SpringApplication.run(Application.class, args);
 		logger.info("支付项目启动 ");
 	}
@@ -42,6 +36,4 @@ public class Application extends WebMvcConfigurerAdapter {
 		super.addResourceHandlers(registry);
 		logger.info("自定义静态资源目录,这只是个Demo,生产肯定不会暴露");
 	}
-
-
 }
