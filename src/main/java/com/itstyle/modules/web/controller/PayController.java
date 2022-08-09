@@ -1,5 +1,6 @@
 package com.itstyle.modules.web.controller;
 
+import com.itstyle.common.util.DateUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
@@ -14,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.itstyle.common.utils.DateUtil;
 @Api(tags ="支付后台")
 @Controller
 @RequestMapping(value = "pay")
@@ -24,8 +24,7 @@ public class PayController {
 
 	@ApiOperation(value="登陆")
 	@RequestMapping(value="login",method=RequestMethod.POST)
-	public @ResponseBody String login(HttpServletRequest request, HttpServletResponse response,
-			           String account,String password) throws Exception {
+	public @ResponseBody String login(String account,String password) {
 		logger.info("登陆");
 		String param = "false";
 		if("admin".equals(account)&&"111111".equals(password)){
@@ -35,10 +34,10 @@ public class PayController {
 	}
 	@ApiOperation(value="后台展示")
 	@RequestMapping(value="main",method=RequestMethod.GET)
-	public String main(HttpServletRequest request, HttpServletResponse response,Model model) throws Exception {
+	public String main(Model model) throws Exception {
 		model.addAttribute("ip", "192.168.1.66");
 		model.addAttribute("address", "青岛");
-		model.addAttribute("time", DateUtil.getTime());
+		model.addAttribute("time", DateUtils.getTime());
 		return "web/main";
 	}
 }

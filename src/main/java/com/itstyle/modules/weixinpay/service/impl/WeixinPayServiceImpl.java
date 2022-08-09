@@ -1,30 +1,23 @@
 package com.itstyle.modules.weixinpay.service.impl;
 
+import com.alipay.demo.trade.utils.ZxingUtils;
+import com.itstyle.common.constants.Constants;
+import com.itstyle.common.model.Product;
+import com.itstyle.common.util.CommonUtils;
+import com.itstyle.modules.weixinpay.service.IWeixinPayService;
+import com.itstyle.modules.weixinpay.util.*;
+import net.sf.json.JSONObject;
+import org.apache.dubbo.config.annotation.Service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import weixin.popular.api.SnsAPI;
+
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import net.sf.json.JSONObject;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
-
-import weixin.popular.api.SnsAPI;
-
-import com.alipay.demo.trade.utils.ZxingUtils;
-import com.itstyle.common.constants.Constants;
-import com.itstyle.common.model.Product;
-import com.itstyle.common.utils.CommonUtil;
-import com.itstyle.modules.weixinpay.service.IWeixinPayService;
-import com.itstyle.modules.weixinpay.util.ClientCustomSSL;
-import com.itstyle.modules.weixinpay.util.ConfigUtil;
-import com.itstyle.modules.weixinpay.util.HttpUtil;
-import com.itstyle.modules.weixinpay.util.PayCommonUtil;
-import com.itstyle.modules.weixinpay.util.XMLUtil;
-
-@Component
+@Service(group = "itstyle-pay", retries = 1, timeout = 10000)
 public class WeixinPayServiceImpl implements IWeixinPayService {
 	private static final Logger logger = LoggerFactory.getLogger(WeixinPayServiceImpl.class);
 	
@@ -54,7 +47,7 @@ public class WeixinPayServiceImpl implements IWeixinPayService {
 			packageParams.put("body", product.getBody());// 商品描述
 			packageParams.put("out_trade_no", product.getOutTradeNo());// 商户订单号
 			String totalFee = product.getTotalFee();
-			totalFee =  CommonUtil.subZeroAndDot(totalFee);
+			totalFee =  CommonUtils.subZeroAndDot(totalFee);
 			packageParams.put("total_fee", totalFee);// 总金额
 			packageParams.put("spbill_create_ip", product.getSpbillCreateIp());// 发起人IP地址
 			packageParams.put("notify_url", notify_url);// 回调地址
@@ -132,7 +125,7 @@ public class WeixinPayServiceImpl implements IWeixinPayService {
 			packageParams.put("out_trade_no", product.getOutTradeNo());// 商户订单号
 			packageParams.put("out_refund_no", product.getOutTradeNo());//商户退款单号
 			String totalFee = product.getTotalFee();
-			totalFee =  CommonUtil.subZeroAndDot(totalFee);
+			totalFee =  CommonUtils.subZeroAndDot(totalFee);
 			packageParams.put("total_fee", totalFee);// 总金额
 			packageParams.put("refund_fee", totalFee);//退款金额
 			packageParams.put("op_user_id", mch_id);//操作员帐号, 默认为商户号
@@ -219,7 +212,7 @@ public class WeixinPayServiceImpl implements IWeixinPayService {
 		try {
 			String key = ConfigUtil.API_KEY; // key
 			//获取两天以前的账单
-			//String billDate = DateUtil.getBeforeDayDate("2");
+			//String billDate = DateUtils.getBeforeDayDate("2");
 			SortedMap<Object, Object> packageParams = new TreeMap<Object, Object>();
 			ConfigUtil.commonParams(packageParams);//公用部分
 			packageParams.put("bill_type", "ALL");//ALL，返回当日所有订单信息，默认值SUCCESS，返回当日成功支付的订单REFUND，返回当日退款订单
@@ -245,7 +238,7 @@ public class WeixinPayServiceImpl implements IWeixinPayService {
 	public String weixinPayMobile(Product product) {
 		String totalFee = product.getTotalFee();
 		//redirect_uri 需要在微信支付端添加认证网址
-		totalFee =  CommonUtil.subZeroAndDot(totalFee);
+		totalFee =  CommonUtils.subZeroAndDot(totalFee);
 		String redirect_uri = server_url+"weixinMobile/dopay?outTradeNo="+product.getOutTradeNo()+"&totalFee="+totalFee;
 		//也可以通过state传递参数 redirect_uri 后面加参数未经过验证
 		return SnsAPI.connectOauth2Authorize(ConfigUtil.APP_ID, redirect_uri, true,null);
@@ -265,7 +258,7 @@ public class WeixinPayServiceImpl implements IWeixinPayService {
 			packageParams.put("body", product.getBody());// 商品描述
 			packageParams.put("out_trade_no", product.getOutTradeNo());// 商户订单号
 			String totalFee = product.getTotalFee();
-			totalFee =  CommonUtil.subZeroAndDot(totalFee);
+			totalFee =  CommonUtils.subZeroAndDot(totalFee);
 			packageParams.put("total_fee", totalFee);// 总金额
 			//H5支付要求商户在统一下单接口中上传用户真实ip地址 spbill_create_ip
 			packageParams.put("spbill_create_ip", product.getSpbillCreateIp());// 发起人IP地址

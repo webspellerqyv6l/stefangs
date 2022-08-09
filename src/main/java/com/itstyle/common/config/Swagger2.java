@@ -52,8 +52,8 @@ public class Swagger2 {
 		return new ApiInfoBuilder()
 				.title("支付系统")
 				.description("微信、支付宝、银联支付服务")
-				.termsOfServiceUrl("http://blog.52itstyle.com")
-				.contact(new Contact("科帮网 ", "http://blog.52itstyle.com", "345849402@qq.com"))
+				.termsOfServiceUrl("http://blog.52itstyle.vip")
+				.contact(new Contact("科帮网 ", "http://blog.52itstyle.vip", "345849402@qq.com"))
 				.version("1.0").build();
 	}
 

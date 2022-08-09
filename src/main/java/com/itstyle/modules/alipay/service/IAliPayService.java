@@ -1,14 +1,13 @@
 package com.itstyle.modules.alipay.service;
-import java.util.Map;
 
-import com.alibaba.dubbo.config.annotation.Service;
 import com.itstyle.common.model.Product;
+
+import java.util.Map;
 /**
  * 扫码支付以及手机H5支付
  * 创建者 科帮网
  * 创建时间	2017年7月27日
  */
-@Service
 public interface IAliPayService {
 	/**
 	 * 阿里支付预下单

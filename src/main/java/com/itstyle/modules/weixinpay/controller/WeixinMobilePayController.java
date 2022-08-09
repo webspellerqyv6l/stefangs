@@ -22,8 +22,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.itstyle.common.model.Product;
-import com.itstyle.common.utils.AddressUtils;
-import com.itstyle.common.utils.DateUtil;
+import com.itstyle.common.util.AddressUtils;
+import com.itstyle.common.util.DateUtils;
 import com.itstyle.modules.weixinpay.service.IWeixinPayService;
 import com.itstyle.modules.weixinpay.util.ConfigUtil;
 import com.itstyle.modules.weixinpay.util.HttpUtil;
@@ -128,7 +128,7 @@ public class WeixinMobilePayController {
 				String prepay_id2 = "prepay_id=" + prepay_id;
 				String packages = prepay_id2;
 				SortedMap<Object, Object> finalpackage = new TreeMap<Object, Object>();
-				String timestamp = DateUtil.getTimestamp();
+				String timestamp = DateUtils.getTimestamp();
 				String nonceStr = packageParams.get("nonce_str").toString();
 				finalpackage.put("appId",  ConfigUtil.APP_ID);
 				finalpackage.put("timeStamp", timestamp);

@@ -12,22 +12,20 @@ public class IndexController {
 	
 	/**
 	 * 页面跳转
-	 * @param module
 	 * @param url
 	 * @return
 	 */
-	@RequestMapping("{url}.shtml")
+	@RequestMapping("{url}.html")
 	public String page(@PathVariable("url") String url) {
 		return  url;
 	}
 	/**
 	 * 页面跳转(一级目录)
 	 * @param module
-	 * @param function
 	 * @param url
 	 * @return
 	 */
-	@RequestMapping("{module}/{url}.shtml")
+	@RequestMapping("{module}/{url}.html")
 	public String page(@PathVariable("module") String module,@PathVariable("url") String url) {
 		return module + "/" + url;
 	}
@@ -41,7 +39,7 @@ public class IndexController {
 	 * 更新日志
 	 * 2019年1月25日 张志朋  首次创建
 	 */
-	@RequestMapping("{module}/{sub}/{url}.shtml")
+	@RequestMapping("{module}/{sub}/{url}.html")
 	public String page(@PathVariable("module") String module,@PathVariable("sub") String sub,@PathVariable("url") String url) {
 		return module + "/" + sub + "/" + url;
 	}

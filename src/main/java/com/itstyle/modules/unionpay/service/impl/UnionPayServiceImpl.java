@@ -1,22 +1,22 @@
 package com.itstyle.modules.unionpay.service.impl;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
-
 import com.itstyle.common.constants.Constants;
 import com.itstyle.common.constants.PayWay;
 import com.itstyle.common.model.Product;
-import com.itstyle.common.utils.CommonUtil;
+import com.itstyle.common.util.CommonUtils;
 import com.itstyle.modules.unionpay.service.IUnionPayService;
 import com.itstyle.modules.unionpay.util.AcpService;
 import com.itstyle.modules.unionpay.util.SDKConfig;
 import com.itstyle.modules.unionpay.util.UnionConfig;
-@Component
+import org.apache.dubbo.config.annotation.Service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+
+import java.util.HashMap;
+import java.util.Map;
+
+@Service(group = "itstyle-pay", retries = 1, timeout = 10000)
 public class UnionPayServiceImpl implements IUnionPayService{
 	private static final Logger logger = LoggerFactory.getLogger(UnionPayServiceImpl.class);
 	
@@ -58,7 +58,7 @@ public class UnionPayServiceImpl implements IUnionPayService{
 		requestData.put("orderId", product.getOutTradeNo());          //商户订单号，8-40位数字字母，不能含“-”或“_”，可以自行定制规则		
 		requestData.put("txnTime", UnionConfig.getCurrentTime());     //订单发送时间，取系统时间，格式为YYYYMMDDhhmmss，必须取当前时间，否则会报txnTime无效
 		requestData.put("currencyCode", "156");         			  //交易币种（境内商户一般是156 人民币）
-		requestData.put("txnAmt", CommonUtil.subZeroAndDot(product.getTotalFee()));             //交易金额，单位分，不要带小数点
+		requestData.put("txnAmt", CommonUtils.subZeroAndDot(product.getTotalFee()));             //交易金额，单位分，不要带小数点
 		//这里组织穿透数据 业务以及交易类型(使用json数据报错)
 		requestData.put("reqReserved","自定义参数");	      //请求方保留域，如需使用请启用即可；透传字段（可以实现商户自定义参数的追踪）本交易的后台通知,对本交易的交易状态查询交易、对账文件中均会原样返回，商户可以按需上传，长度为1-1024个字节		
 		
