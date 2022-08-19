@@ -1,6 +1,7 @@
 # spring-boot-pay
 支付服务：支付宝，微信，银联详细 **代码案例** (除银联支付可以测试以外，支付宝和微信支付测试均需要企业认证，个人无法完成测试)，项目启动前请仔细阅读  **[注意事项](https://git.oschina.net/52itstyle/spring-boot-pay#注意事项)** :fa-hand-o-left:   。
 
+Spring-Boot2.0 + Nacos注册中心版：https://gitee.com/52itstyle/spring-boot-pay/tree/spring-boot-nacos-pay
 
 ## 你问我答
 
@@ -318,4 +319,10 @@ AlipayClient alipayClient = new DefaultAlipayClient(
 ## 云服务推荐
 
 [![输入图片说明](https://images.gitee.com/uploads/images/2019/0718/130816_45e06f95_87650.png "屏幕截图.png")](https://promotion.aliyun.com/ntms/yunparter/invite.html?userCode=kutpfdo3)
+
+## 小程序推荐
+
+这可能是东半球最好的妹子图小程序，点她、点她、点她！！！
+
+![输入图片说明](https://images.gitee.com/uploads/images/2020/0224/192652_8e043ef1_87650.jpeg "meizi.jpg")
 
