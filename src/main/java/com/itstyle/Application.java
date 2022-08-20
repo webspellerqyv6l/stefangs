@@ -18,7 +18,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * 4）原 zookeeper 3.4.6 升级为 zookeeper 3.5.3
  * ============================
  * 2020-05-07 更新说明：
- * Dubbo 2.6.2 升级为 2.7.3
+ * 1）Dubbo 2.6.2 升级为 2.7.3
+ * 1）dubbo-spring-boot-starter 2.0.0 升级为 2.7.3
  */
 @EnableDubbo(scanBasePackages  = "com.itstyle.modules")
 @SpringBootApplication
