@@ -49,16 +49,12 @@ Spring-Boot2.0 + Nacos注册中心版：https://gitee.com/52itstyle/spring-boot-
 
 ## 开发环境
 
-JDK1.8、Maven、Eclipse、SpringBoot1.5.10、spring-boot-starter-thymeleaf、Dubbo2.6.2、zookeeper3.5.3
+JDK1.8、Maven、IDEA、SpringBoot2.2.6、spring-boot-starter-thymeleaf、Dubbo2.7.3、zookeeper3.5.3
 
 ## 启动说明
 
-- 项目中RPC框架使用的是当当维护的DubboX，现在阿里已经处于维护状态中，请自行更新
 - 配置Dubbo需要安装注册中心zookeeper: http://www.52itstyle.top/thread-19791-1-1.html
-- 如果不想使用Dubbo和安装zookeeper，又想启动看下效果，请注释掉 Application 类中的@ImportResource({"classpath:spring-context-dubbo.xml"})，
-同时由于接口扫描注解使用的是Dubbo的  com.alibaba.dubbo.config.annotation.Service; 请自行替换成spring的 org.springframework.stereotype.Service;
 
-- 2018-10-10 原spring-context-dubbo.xml 配置 替换为 dubbo-spring-boot-starter 2.0.0,接上如果不用注释掉@EnableDubboConfiguration即可
 - 基础配置初始化类：com.itstyle.common.cinfig.InitPay
 
 - 最后想测试相关支付效果，请自行配置支付宝、微信以及银联相关账号以及证书
@@ -66,6 +62,7 @@ JDK1.8、Maven、Eclipse、SpringBoot1.5.10、spring-boot-starter-thymeleaf、Du
 - 启动并访问项目：http://localhost:8080/spring-boot-pay
 
 ## 友情提示
+
 由于工作原因，项目正在完善中（仅供参考），随时更新日志，有疑问请留言或者加群
 
 - JAVA爱好者:<a target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=eba7a5d6f672c67cf942e08486e5102f0a0a6268206f873fef48a9d74f248de8"><img border="0" src="//pub.idqqimg.com/wpa/images/group.png" alt="JAVA爱好者" title="JAVA爱好者"></a>
@@ -253,6 +250,13 @@ AlipayClient alipayClient = new DefaultAlipayClient(
                                                Configs.getPrivateKey(), "json", "UTF-8",
                                                Configs.getAlipayPublicKey(),"RSA2");
 ```
+
+#### 2020-05-08 更新说明：
+
+- SpringBoot 1.5.10 升级为2.2.6
+- Dubbo 2.6.2 升级为 2.7.3
+- dubbo-spring-boot-starter 2.0.0 升级为 2.7.3
+
 
 ## 推荐算法
 
