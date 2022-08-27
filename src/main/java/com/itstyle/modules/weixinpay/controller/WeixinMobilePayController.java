@@ -40,7 +40,9 @@ import com.itstyle.modules.weixinpay.util.mobile.MobileUtil;
 @Controller
 @RequestMapping(value = "weixinMobile")
 public class WeixinMobilePayController {
+
 	private static final Logger logger = LoggerFactory.getLogger(WeixinMobilePayController.class);
+
 	@Autowired
 	private IWeixinPayService weixinPayService;
 	@Value("${server.context.url}")
@@ -127,7 +129,7 @@ public class WeixinMobilePayController {
 				String prepay_id = (String) map.get("prepay_id");
 				String prepay_id2 = "prepay_id=" + prepay_id;
 				String packages = prepay_id2;
-				SortedMap<Object, Object> finalpackage = new TreeMap<Object, Object>();
+				SortedMap<Object, Object> finalpackage = new TreeMap<>();
 				String timestamp = DateUtils.getTimestamp();
 				String nonceStr = packageParams.get("nonce_str").toString();
 				finalpackage.put("appId",  ConfigUtil.APP_ID);
@@ -157,7 +159,6 @@ public class WeixinMobilePayController {
 	 * @Author  科帮网
 	 * @param request
 	 * @param response
-	 * @param platForm  void
 	 * @Date	2017年7月31日
 	 * 更新日志
 	 * 2017年7月31日  科帮网 首次创建

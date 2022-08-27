@@ -12,6 +12,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @Configuration
 @EnableSwagger2
 public class Swagger2 {
+
 	@Bean
 	public Docket webApi() {
 		return new Docket(DocumentationType.SWAGGER_2)
@@ -21,6 +22,7 @@ public class Swagger2 {
 				.apis(RequestHandlerSelectors.basePackage("com.itstyle.modules.web"))
 				.paths(PathSelectors.any()).build();
 	}
+
 	@Bean
 	public Docket alipayApi() {
 		return new Docket(DocumentationType.SWAGGER_2)
@@ -30,6 +32,7 @@ public class Swagger2 {
 				.apis(RequestHandlerSelectors.basePackage("com.itstyle.modules.alipay"))
 				.paths(PathSelectors.any()).build();
 	}
+
 	@Bean
 	public Docket weixinpayApi() {
 		return new Docket(DocumentationType.SWAGGER_2)
@@ -39,6 +42,7 @@ public class Swagger2 {
 				.apis(RequestHandlerSelectors.basePackage("com.itstyle.modules.weixinpay"))
 				.paths(PathSelectors.any()).build();
 	}
+
 	@Bean
 	public Docket unionpayApi() {
 		return new Docket(DocumentationType.SWAGGER_2)
@@ -48,6 +52,7 @@ public class Swagger2 {
 				.apis(RequestHandlerSelectors.basePackage("com.itstyle.modules.unionpay"))
 				.paths(PathSelectors.any()).build();
 	}
+
 	private ApiInfo apiInfo() {
 		return new ApiInfoBuilder()
 				.title("支付系统")
@@ -56,5 +61,4 @@ public class Swagger2 {
 				.contact(new Contact("科帮网 ", "http://blog.52itstyle.vip", "345849402@qq.com"))
 				.version("1.0").build();
 	}
-
 }

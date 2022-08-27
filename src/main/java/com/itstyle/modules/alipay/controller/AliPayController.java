@@ -36,7 +36,9 @@ import com.itstyle.modules.alipay.util.AliPayConfig;
 @Controller
 @RequestMapping(value = "alipay")
 public class AliPayController {
+
 	private static final Logger logger = LoggerFactory.getLogger(AliPayController.class);
+
 	@Autowired
 	private IAliPayService aliPayService;
 	
@@ -92,7 +94,7 @@ public class AliPayController {
 	@RequestMapping(value="pay",method=RequestMethod.POST)
 	public void alipay_notify(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String  message = "success";
-		Map<String, String> params = new HashMap<String, String>();
+		Map<String, String> params = new HashMap<>();
 		// 取出所有参数是为了验证签名
 		Enumeration<String> parameterNames = request.getParameterNames();
 		while (parameterNames.hasMoreElements()) {
@@ -155,7 +157,7 @@ public class AliPayController {
 	public String  frontRcvResponse(HttpServletRequest request){
 		try {
 			//获取支付宝GET过来反馈信息
-			Map<String,String> params = new HashMap<String,String>();
+			Map<String,String> params = new HashMap<>();
 			Map<String,String[]> requestParams = request.getParameterMap();
 			for (Iterator<String> iter = requestParams.keySet().iterator(); iter.hasNext();) {
 				String name = (String) iter.next();

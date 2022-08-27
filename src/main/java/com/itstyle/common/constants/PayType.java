@@ -3,7 +3,6 @@ package com.itstyle.common.constants;
  * 支付类型
  * 创建者 科帮网
  * 创建时间	2017年8月2日
- *
  */
 public enum PayType {
 	/**支付类型*/
@@ -12,7 +11,7 @@ public enum PayType {
 	private Short code;
 	private String name;
 	
-	private PayType(String name, Short code) {
+	PayType(String name, Short code) {
 		this.name = name;
 		this.code = code;
 	}

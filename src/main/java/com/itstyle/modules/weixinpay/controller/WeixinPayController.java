@@ -40,10 +40,11 @@ import com.itstyle.modules.weixinpay.util.XMLUtil;
 @Controller
 @RequestMapping(value = "weixinpay")
 public class WeixinPayController {
+
 	private static final Logger logger = LoggerFactory.getLogger(WeixinPayController.class);
+
 	@Autowired
 	private IWeixinPayService weixinPayService;
-	
 	@Value("${wexinpay.notify.url}")
 	private String notify_url;
 	
@@ -101,11 +102,9 @@ public class WeixinPayController {
 		inputStream.close();
 
 		// 解析xml成map
-		Map<String, String> m = new HashMap<String, String>();
-		m = XMLUtil.doXMLParse(sb.toString());
-
+		Map<String, String> m = XMLUtil.doXMLParse(sb.toString());
 		// 过滤空 设置 TreeMap
-		SortedMap<Object, Object> packageParams = new TreeMap<Object, Object>();
+		SortedMap<Object, Object> packageParams = new TreeMap<>();
 		Iterator it = m.keySet().iterator();
 		while (it.hasNext()) {
 			String parameter = (String) it.next();
@@ -180,7 +179,7 @@ public class WeixinPayController {
 		//解析xml成map
 		Map<String, String> map = XMLUtil.doXMLParse(sb.toString());
 		//过滤空 设置 TreeMap
-		SortedMap<Object, Object> packageParams = new TreeMap<Object, Object>();
+		SortedMap<Object, Object> packageParams = new TreeMap<>();
 		Iterator it = map.keySet().iterator();
 		while (it.hasNext()) {
 			String parameter = (String) it.next();
@@ -212,14 +211,14 @@ public class WeixinPayController {
 
     		String resXml = HttpUtil.postData(ConfigUtil.UNIFIED_ORDER_URL, requestXML);
     		Map<String, String>  payResult = XMLUtil.doXMLParse(resXml);
-    		String returnCode = (String) payResult.get("return_code");
+    		String returnCode =  payResult.get("return_code");
     		if("SUCCESS".equals(returnCode)){
-    			String resultCode = (String) payResult.get("result_code");
+    			String resultCode = payResult.get("result_code");
     			if("SUCCESS".equals(resultCode)){
     				logger.info("(订单号：{}生成微信支付码成功)",out_trade_no);
     				
                     String prepay_id = payResult.get("prepay_id");
-                    SortedMap<Object, Object> prepayParams = new TreeMap<Object, Object>();
+                    SortedMap<Object, Object> prepayParams = new TreeMap<>();
                     ConfigUtil.commonParams(params);
                     prepayParams.put("prepay_id", prepay_id);
                     prepayParams.put("return_code", "SUCCESS");
@@ -234,11 +233,11 @@ public class WeixinPayController {
         			out.flush();
         			out.close();
     			}else{
-    				String errCodeDes = (String) map.get("err_code_des");
+    				String errCodeDes = map.get("err_code_des");
     				logger.info("(订单号：{}生成微信支付码(系统)失败[{}])",out_trade_no,errCodeDes);
     			}
     		}else{
-    			String returnMsg = (String) map.get("return_msg");
+    			String returnMsg = map.get("return_msg");
     			logger.info("(订单号：{} 生成微信支付码(通信)失败[{}])",out_trade_no,returnMsg);
     		}
         }else{

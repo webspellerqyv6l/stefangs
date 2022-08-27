@@ -31,13 +31,13 @@ public class IndexController {
 	}
 	/**
 	 * 页面跳转（二级目录)
-	 * @Author	张志朋
+	 * @Author	爪哇笔记
 	 * @param module
 	 * @param url
 	 * @return  String
 	 * @Date	2019年1月25日
 	 * 更新日志
-	 * 2019年1月25日 张志朋  首次创建
+	 * 2019年1月25日 爪哇笔记  首次创建
 	 */
 	@RequestMapping("{module}/{sub}/{url}.html")
 	public String page(@PathVariable("module") String module,@PathVariable("sub") String sub,@PathVariable("url") String url) {

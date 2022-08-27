@@ -3,10 +3,6 @@ package com.itstyle.modules.web.controller;
 import com.itstyle.common.util.DateUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -19,8 +15,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @RequestMapping(value = "pay")
 public class PayController {
-	private static final Logger logger = LoggerFactory.getLogger(PayController.class);
 
+	private static final Logger logger = LoggerFactory.getLogger(PayController.class);
 
 	@ApiOperation(value="登陆")
 	@RequestMapping(value="login",method=RequestMethod.POST)

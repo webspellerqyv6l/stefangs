@@ -6,7 +6,9 @@ import java.io.Serializable;
  * 创建时间	2017年7月27日
  */
 public class Product implements Serializable {
+
 	private static final long serialVersionUID = 1L;
+
 	private String productId;// 商品ID
 	private String subject;//订单名称 
 	private String body;// 商品描述
@@ -21,6 +23,7 @@ public class Product implements Serializable {
 	public Product() {
 		super();
 	}
+
 	public Product(String productId, String subject, String body,
 			String totalFee, String outTradeNo, String spbillCreateIp,
 			String attach, Short payType, Short payWay, String frontUrl) {
@@ -36,6 +39,7 @@ public class Product implements Serializable {
 		this.payWay = payWay;
 		this.frontUrl = frontUrl;
 	}
+
 	public String getProductId() {
 		return productId;
 	}

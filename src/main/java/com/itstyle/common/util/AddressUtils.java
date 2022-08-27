@@ -1,20 +1,15 @@
 package com.itstyle.common.util;
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-
-import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
 /**
  * 根据IP地址获取详细的地域信息
  * 创建者 科帮网
  * 创建时间	2017年7月31日
- *
  */
 public class AddressUtils { 
 	/**
@@ -26,7 +21,7 @@ public class AddressUtils {
 	 * @return
 	 * @throws UnsupportedEncodingException
 	 */
-	public static String getAddresses(String ip) throws UnsupportedEncodingException {
+	public static String getAddresses(String ip){
 		String urlStr ="http://ip.taobao.com/service/getIpInfo.php";
 		String returnStr = getResult(urlStr, ip);
 		if (returnStr != null) {
@@ -38,12 +33,11 @@ public class AddressUtils {
 			String region = (temp[5].split(":"))[1].replaceAll("\"", "");
 			region = decodeUnicode(region);// 省份
 
-			String country = "";
-			String area = "";
-			// String region = "";
+			String country;
+			String area;
 			String city = "";
-			String county = "";
-			String isp = "";
+			String county;
+			String isp;
 			for (int i = 0; i < temp.length; i++) {
 				switch (i) {
 				case 1:
@@ -211,27 +205,34 @@ public class AddressUtils {
     public static String getIpAddr(HttpServletRequest request)
     {
         String ip = request.getHeader("X-Real-IP");
-        if(!StringUtils.isBlank(ip) && !"unknown".equalsIgnoreCase(ip))
+        if(!StringUtils.isBlank(ip) && !"unknown".equalsIgnoreCase(ip)) {
             return ip;
+        }
         ip = request.getHeader("X-Forwarded-For");
         if(!StringUtils.isBlank(ip) && !"unknown".equalsIgnoreCase(ip))
         {
             int index = ip.indexOf(',');
-            if(index != -1)
-               return ip.substring(0, index);
-            else
+            if(index != -1) {
+                return ip.substring(0, index);
+            } else {
                 return ip;
+            }
         }
-        if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip))
+        if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
             ip = request.getHeader("Proxy-Client-IP");
-        if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip))
+        }
+        if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
             ip = request.getHeader("WL-Proxy-Client-IP");
-        if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip))
+        }
+        if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
             ip = request.getHeader("HTTP_CLIENT_IP");
-        if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip))
+        }
+        if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
             ip = request.getHeader("HTTP_X_FORWARDED_FOR");
-        if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip))
+        }
+        if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
             ip = request.getRemoteAddr();
+        }
         return ip;
     }
 }  

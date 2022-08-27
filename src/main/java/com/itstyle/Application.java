@@ -1,7 +1,8 @@
 package com.itstyle;
 
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 /**
@@ -19,15 +20,16 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * ============================
  * 2020-05-07 更新说明：
  * 1）Dubbo 2.6.2 升级为 2.7.3
- * 1）dubbo-spring-boot-starter 2.0.0 升级为 2.7.3
+ * 2）dubbo-spring-boot-starter 2.0.0 升级为 2.7.3
  */
 @EnableDubbo(scanBasePackages  = "com.itstyle.modules")
 @SpringBootApplication
 public class Application {
-	private static final Logger logger = Logger.getLogger(Application.class);
+
+    private final static Logger LOGGER = LoggerFactory.getLogger(Application.class);
 
 	public static void main(String[] args){
 		SpringApplication.run(Application.class, args);
-		logger.info("支付项目启动");
+        LOGGER.info("支付项目启动");
 	}
 }

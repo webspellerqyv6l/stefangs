@@ -6,7 +6,6 @@ import java.util.Date;
  * 日期操作类
  * 创建者 科帮网
  * 创建时间	2017年7月31日
- *
  */
 public class DateUtils {
 
