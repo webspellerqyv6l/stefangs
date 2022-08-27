@@ -16,7 +16,7 @@ Spring-Boot2.0 + Nacos注册中心版：https://gitee.com/52itstyle/spring-boot-
 3）使用 RPC 有什么好处？
 
 一是安全啊，我们项目部署在私有云，注册中心一般不会对外开放，那就不存在 HTTP 接口所谓的鉴权了；
-二是高效啊，毕竟 RPC 是基于四层协议的，相对来说的确会高那么一点点，这个大家可以自行测试，但是我觉得对于大部门公司，这个不重要。
+二是高效啊，毕竟 RPC 是基于四层协议的，相对来说的确会高那么一点点，这个大家可以自行测试，但是我觉得对于大部分公司，这个不重要。
 
 4）这个项目可以拿来即用吗？
 
@@ -25,7 +25,6 @@ Spring-Boot2.0 + Nacos注册中心版：https://gitee.com/52itstyle/spring-boot-
 5）如何保证高可用？
 
 那就部署多个服务，Dubbo 默认负载均衡策略是轮询，你也可以配置成其他策略，比如根据机器配置设置加权之类的。Zookeeper 也可以啊，保证 2N+1 台就是了。
-
 
 
 ## 欢迎关注
@@ -45,21 +44,23 @@ Spring-Boot2.0 + Nacos注册中心版：https://gitee.com/52itstyle/spring-boot-
 电脑支付、WAP支付
 
 
-[SpringMvc-Dubbox-pay版本](https://git.oschina.net/52itstyle/springMvc-dubbo-pay)
+[SpringMvc-Dubbox-pay版本(废弃不再维护)](https://git.oschina.net/52itstyle/springMvc-dubbo-pay)
 
 ## 开发环境
 
-JDK1.8、Maven、IDEA、SpringBoot2.2.6、spring-boot-starter-thymeleaf、Dubbo2.7.3、zookeeper3.5.3
+JDK1.8、Maven、IDEA、SpringBoot2.2.6、Dubbo2.7.3、zookeeper3.5.3
 
 ## 启动说明
 
-- 配置Dubbo需要安装注册中心zookeeper: http://www.52itstyle.top/thread-19791-1-1.html
+- 配置Dubbo需要安装注册中心zookeeper(不过撸主已经在配置文件中为大家准备了公益注册中心): http://www.52itstyle.top/thread-19791-1-1.html
 
 - 基础配置初始化类：com.itstyle.common.cinfig.InitPay
 
 - 最后想测试相关支付效果，请自行配置支付宝、微信以及银联相关账号以及证书
 
 - 启动并访问项目：http://localhost:8080/spring-boot-pay
+
+- 此案例只是实现了部分功能，其它功能大家按需根据自己的业务逻辑自行实现，最重要的下单和回调已经实现
 
 ## 友情提示
 
