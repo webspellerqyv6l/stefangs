@@ -12,12 +12,11 @@ public class IndexController {
 	
 	/**
 	 * 页面跳转
-	 * @param url
 	 * @return
 	 */
-	@RequestMapping("{url}.html")
-	public String page(@PathVariable("url") String url) {
-		return  url;
+	@RequestMapping("index.html")
+	public String page() {
+		return  "index";
 	}
 	/**
 	 * 页面跳转(一级目录)

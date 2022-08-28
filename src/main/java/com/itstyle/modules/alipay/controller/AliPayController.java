@@ -153,7 +153,7 @@ public class AliPayController {
 	 * 更新日志
 	 * 2018年11月20日  科帮网 首次创建
 	 */
-	@RequestMapping("/frontRcvResponse")
+	@RequestMapping(value="/frontRcvResponse",method=RequestMethod.POST)
 	public String  frontRcvResponse(HttpServletRequest request){
 		try {
 			//获取支付宝GET过来反馈信息
