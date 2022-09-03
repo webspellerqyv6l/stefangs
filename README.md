@@ -32,7 +32,7 @@ Spring-Boot2.0 + Nacos注册中心版：https://gitee.com/52itstyle/spring-boot-
 
 ## 云服务推荐
 
-[![输入图片说明](https://images.gitee.com/uploads/images/2020/0609/222359_e44f1a3f_87650.jpeg "屏幕截图.png")](https://promotion.aliyun.com/ntms/yunparter/invite.html?userCode=kutpfdo3)
+[![输入图片说明](https://images.gitee.com/uploads/images/2020/0609/222359_e44f1a3f_87650.jpeg "屏幕截图.png")](https://www.aliyun.com/activity/618/index?userCode=kutpfdo3)
 
 ## 欢迎关注
 
