@@ -30,6 +30,7 @@ public class Application {
 
 	public static void main(String[] args){
 		SpringApplication.run(Application.class, args);
+        LOGGER.info("个人可以申请的支付项目：https://gitee.com/52itstyle/ppay");
         LOGGER.info("支付项目启动");
 	}
 }
