@@ -5,7 +5,11 @@
 
  **[墙裂推荐，一个能够让程序猿快速开发的极简工具箱](https://gitee.com/52itstyle/SPTools)** 
 
-演示地址：[https://pay.cloudbed.vip](https://pay.cloudbed.vip)
+## 个人申请
+
+个人也可申请，微信、支付宝官方直连结算。[快来看看吧！](https://mmbizurl.cn/s/hEludsCNs)
+
+个人支付演示地址：[https://pay.cloudbed.vip](https://pay.cloudbed.vip)
 
 ## 你问我答
 
