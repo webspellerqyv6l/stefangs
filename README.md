@@ -265,6 +265,12 @@ AlipayClient alipayClient = new DefaultAlipayClient(
 - Dubbo 2.6.2 升级为 2.7.3
 - dubbo-spring-boot-starter 2.0.0 升级为 2.7.3
 
+#### 2020-11-05 更新说明：
+
+个人也可申请，微信、支付宝官方直连结算。[快来看看吧！](https://mmbizurl.cn/s/hEludsCNs)
+
+个人支付演示地址：[https://pay.cloudbed.vip](https://pay.cloudbed.vip) 账号：pay 密码：123456
+
 
 ## 推荐算法
 
