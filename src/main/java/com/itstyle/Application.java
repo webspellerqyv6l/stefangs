@@ -21,6 +21,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * 2020-05-07 更新说明：
  * 1）Dubbo 2.6.2 升级为 2.7.3
  * 2）dubbo-spring-boot-starter 2.0.0 升级为 2.7.3
+ *
+ * 官网：https://pay.cloudbed.vip
  */
 @EnableDubbo(scanBasePackages  = "com.itstyle.modules")
 @SpringBootApplication
@@ -30,7 +32,6 @@ public class Application {
 
 	public static void main(String[] args){
 		SpringApplication.run(Application.class, args);
-        LOGGER.info("个人可以申请的支付项目：https://gitee.com/52itstyle/ppay");
-        LOGGER.info("支付项目启动");
+        LOGGER.info("支付项目启动，官网：https://pay.cloudbed.vip");
 	}
 }
