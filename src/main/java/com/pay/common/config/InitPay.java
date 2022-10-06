@@ -9,7 +9,7 @@ import com.pay.modules.unionpay.util.SDKConfig;
 import com.pay.modules.wxpay.util.ConfigUtil;
 /**
  * 启动加载支付宝、微信以及银联相关参数配置
- * 创建者 张志朋
+ * 创建者 小柒2012
  * 创建时间 2018年5月15日
  */
 @Component

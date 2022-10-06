@@ -24,7 +24,7 @@ public class Swagger2 {
 	}
 
 	@Bean
-	public Docket alipayApi() {
+	public Docket aliPayApi() {
 		return new Docket(DocumentationType.SWAGGER_2)
 		        .groupName("支付宝API接口文档")  
 		        .apiInfo(apiInfo())
@@ -34,7 +34,7 @@ public class Swagger2 {
 	}
 
 	@Bean
-	public Docket weixinpayApi() {
+	public Docket wxPayApi() {
 		return new Docket(DocumentationType.SWAGGER_2)
 		        .groupName("微信API接口文档")  
 		        .apiInfo(apiInfo())
@@ -44,7 +44,7 @@ public class Swagger2 {
 	}
 
 	@Bean
-	public Docket unionpayApi() {
+	public Docket unionPayApi() {
 		return new Docket(DocumentationType.SWAGGER_2)
 		        .groupName("银联API接口文档")  
 		        .apiInfo(apiInfo())
@@ -55,10 +55,10 @@ public class Swagger2 {
 
 	private ApiInfo apiInfo() {
 		return new ApiInfoBuilder()
-				.title("支付系统")
+				.title("支付系统 官网：https://pay.cloudbed.vip")
 				.description("微信、支付宝、银联支付服务")
 				.termsOfServiceUrl("http://blog.52itstyle.vip")
-				.contact(new Contact("科帮网 ", "http://blog.52itstyle.vip", "345849402@qq.com"))
+				.contact(new Contact("爪洼笔记 ", "http://blog.52itstyle.vip", "345849402@qq.com"))
 				.version("1.0").build();
 	}
 }

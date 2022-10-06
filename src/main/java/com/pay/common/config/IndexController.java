@@ -18,6 +18,7 @@ public class IndexController {
 	public String page() {
 		return  "index";
 	}
+
 	/**
 	 * 页面跳转(一级目录)
 	 * @param module
@@ -28,6 +29,7 @@ public class IndexController {
 	public String page(@PathVariable("module") String module,@PathVariable("url") String url) {
 		return module + "/" + url;
 	}
+
 	/**
 	 * 页面跳转（二级目录)
 	 * @Author	爪哇笔记
@@ -42,5 +44,4 @@ public class IndexController {
 	public String page(@PathVariable("module") String module,@PathVariable("sub") String sub,@PathVariable("url") String url) {
 		return module + "/" + sub + "/" + url;
 	}
-	
 }
