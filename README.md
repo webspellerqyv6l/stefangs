@@ -10,7 +10,9 @@
 
 个人也可申请，微信、支付宝官方直连结算。[快来看看吧！](https://mmbizurl.cn/s/hEludsCNs)
 
-个人支付演示地址：[https://pay.cloudbed.vip](https://pay.cloudbed.vip)
+## 案例演示
+
+支付管理后台演示地址：[https://pay.cloudbed.vip](https://pay.cloudbed.vip)
 
 ## 你问我答
 
@@ -62,7 +64,7 @@ JDK1.8、Maven、IDEA、SpringBoot2.2.6、Dubbo2.7.3、zookeeper3.5.3
 
 - 配置Dubbo需要安装注册中心zookeeper(不过撸主已经在配置文件中为大家准备了公益注册中心): http://www.52itstyle.top/thread-19791-1-1.html
 
-- 基础配置初始化类：com.pay.common.cinfig.InitPay
+- 基础配置初始化类：com.itstyle.common.cinfig.InitPay
 
 - 最后想测试相关支付效果，请自行配置支付宝、微信以及银联相关账号以及证书
 
@@ -272,10 +274,6 @@ AlipayClient alipayClient = new DefaultAlipayClient(
 
 个人支付演示地址：[https://pay.cloudbed.vip](https://pay.cloudbed.vip) 账号：pay 密码：123456
 
-#### 2020-11-22 更新说明：
-
-- 优化微信支付逻辑
-- 优化相关包/类/调用方法
 
 ## 推荐算法
 
