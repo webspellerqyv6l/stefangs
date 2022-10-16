@@ -1,5 +1,16 @@
 package com.pay.modules.wxpay.util;
 
+import org.apache.commons.lang3.StringUtils;
+import org.jdom.Document;
+import org.jdom.Element;
+import org.jdom.JDOMException;
+import org.jdom.input.SAXBuilder;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,44 +19,26 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.jdom.Document;
-import org.jdom.Element;
-import org.jdom.JDOMException;
-import org.jdom.input.SAXBuilder;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 /**
  * XML解析
- * 创建者 科帮网
- * 创建时间	2017年7月31日
- *
  */
 public class XMLUtil {
+
 	/**
 	 * 解析xml,返回第一级元素键值对。如果第一级元素有子节点，则此节点的值是子节点的xml数据。
-	 * 
-	 * @param strxml
+	 * @param strXml
 	 * @return
 	 * @throws JDOMException
 	 * @throws IOException
 	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public static Map doXMLParse(String strxml) throws JDOMException, IOException {
-		//过滤关键词，防止XXE漏洞攻击
-	    strxml = filterXXE(strxml);
-		strxml = strxml.replaceFirst("encoding=\".*\"", "encoding=\"UTF-8\"");
-
-		if (null == strxml || "".equals(strxml)) {
+	public static Map doXMLParse(String strXml) throws JDOMException, IOException {
+        strXml = filterXXE(strXml);
+        strXml = strXml.replaceFirst("encoding=\".*\"", "encoding=\"UTF-8\"");
+		if (StringUtils.isBlank(strXml)) {
 			return null;
 		}
-
 		Map m = new HashMap();
-
-		InputStream in = new ByteArrayInputStream(strxml.getBytes("UTF-8"));
+		InputStream in = new ByteArrayInputStream(strXml.getBytes("UTF-8"));
 		SAXBuilder builder = new SAXBuilder();
 		Document doc = builder.build(in);
 		Element root = doc.getRootElement();
@@ -54,7 +47,7 @@ public class XMLUtil {
 		while (it.hasNext()) {
 			Element e = (Element) it.next();
 			String k = e.getName();
-			String v = "";
+			String v;
 			List children = e.getChildren();
 			if (children.isEmpty()) {
 				v = e.getTextNormalize();
@@ -64,20 +57,15 @@ public class XMLUtil {
 
 			m.put(k, v);
 		}
-
-		// 关闭流
 		in.close();
-
 		return m;
 	}
 
 	/**
 	 * 获取子结点的xml
-	 * 
 	 * @param children
 	 * @return String
 	 */
-	@SuppressWarnings({ "rawtypes" })
 	public static String getChildrenText(List children) {
 		StringBuffer sb = new StringBuffer();
 		if (!children.isEmpty()) {
@@ -98,6 +86,7 @@ public class XMLUtil {
 
 		return sb.toString();
 	}
+
 	/**
 	 * 通过DOCTYPE和ENTITY来加载本地受保护的文件、替换掉即可
 	 * 漏洞原理：https://my.oschina.net/u/574353/blog/1841103
@@ -119,7 +108,7 @@ public class XMLUtil {
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static Map doXMLParse2(String strXML) throws Exception {
-	   Map<String,String> m = new HashMap<String,String>();
+	   Map<String,String> m = new HashMap<>();
 	   DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 	   String FEATURE = null;
 	   try {
@@ -155,5 +144,4 @@ public class XMLUtil {
 	   stream.close();
 	   return m;
 	}
-
 }

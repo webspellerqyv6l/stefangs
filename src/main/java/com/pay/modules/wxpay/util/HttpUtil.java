@@ -20,47 +20,47 @@ public class HttpUtil {
     public static final int DEF_CONN_TIMEOUT = 30000;
     public static final int DEF_READ_TIMEOUT = 30000;
 
-    private final static String DEFAULT_ENCODING = "UTF-8";
+	private final static String DEFAULT_ENCODING = "UTF-8";
 
-    public static String postData(String urlStr, String data) {
-        return postData(urlStr, data, null);
-    }
+	public static String postData(String urlStr, String data) {
+		return postData(urlStr, data, null);
+	}
 
-    public static String postData(String urlStr, String data, String contentType) {
-        BufferedReader reader = null;
-        try {
+	public static String postData(String urlStr, String data, String contentType) {
+		BufferedReader reader = null;
+		try {
             URLConnection conn = initHttps(urlStr);
-            if (contentType != null) {
+			if (contentType != null) {
                 conn.setRequestProperty("content-type", contentType);
             }
-            OutputStreamWriter writer = new OutputStreamWriter(conn.getOutputStream(), DEFAULT_ENCODING);
-            if (data == null) {
+			OutputStreamWriter writer = new OutputStreamWriter(conn.getOutputStream(), DEFAULT_ENCODING);
+			if (data == null) {
                 data = "";
             }
-            writer.write(data);
-            writer.flush();
-            writer.close();
+			writer.write(data);
+			writer.flush();
+			writer.close();
 
-            reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), DEFAULT_ENCODING));
-            StringBuilder sb = new StringBuilder();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                sb.append(line);
-                sb.append("\r\n");
-            }
-            return sb.toString();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (reader != null) {
+			reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), DEFAULT_ENCODING));
+			StringBuilder sb = new StringBuilder();
+			String line;
+			while ((line = reader.readLine()) != null) {
+				sb.append(line);
+				sb.append("\r\n");
+			}
+			return sb.toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (reader != null) {
                     reader.close();
                 }
-            } catch (IOException e) {
-            }
-        }
-        return null;
-    }
+			} catch (IOException e) {
+			}
+		}
+		return null;
+	}
 
     /**
      * 初始化http请求参数
@@ -110,4 +110,3 @@ public class HttpUtil {
         }
     }
 }
-

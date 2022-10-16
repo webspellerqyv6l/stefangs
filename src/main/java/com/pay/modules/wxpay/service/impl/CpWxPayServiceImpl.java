@@ -10,6 +10,7 @@ import net.sf.json.JSONObject;
 import org.apache.dubbo.config.annotation.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import weixin.popular.api.SnsAPI;
 
@@ -36,6 +37,9 @@ public class CpWxPayServiceImpl implements CpWxPayService {
     @Value("${server.context.url}")
     private String projectUrl;
 
+    @Autowired
+    private WxPayUtil wxPayUtil;
+
     /**
 	 * 微信支付要求商户订单号保持唯一性（建议根据当前系统时间加随机序列来生成订单号）。
 	 * 重新发起一笔支付要使用原订单号，避免重复支付；已支付过或已调用关单、撤销的订单号不能重新发起支付。
@@ -44,13 +48,13 @@ public class CpWxPayServiceImpl implements CpWxPayService {
 	@Override
 	public String wxPay2(Product product) {
 		logger.info("订单号：{}生成微信支付码",product.getOutTradeNo());
-		String  message = Constants.SUCCESS;
+		String  message;
 		try {
 			// 账号信息
-			String key = ConfigUtil.API_KEY;
+			String key = wxPayUtil.wxPay().getApiKey();
 			String trade_type = "NATIVE";// 交易类型 原生扫码支付
-			SortedMap<Object, Object> packageParams = new TreeMap<Object, Object>();
-			ConfigUtil.commonParams(packageParams);
+			SortedMap<Object, Object> packageParams = new TreeMap<>();
+            wxPayUtil.commonParams(packageParams);
 			packageParams.put("product_id", product.getProductId());// 商品ID
 			packageParams.put("body", product.getBody());// 商品描述
 			packageParams.put("out_trade_no", product.getOutTradeNo());// 商户订单号
@@ -63,7 +67,7 @@ public class CpWxPayServiceImpl implements CpWxPayService {
 			String sign = PayCommonUtil.createSign("UTF-8", packageParams, key);
 			packageParams.put("sign", sign);// 签名
 			String requestXML = PayCommonUtil.getRequestXml(packageParams);
-			String resXml = HttpUtil.postData(ConfigUtil.UNIFIED_ORDER_URL, requestXML);
+			String resXml = HttpUtil.postData(WxPayUrl.UNIFIED_ORDER_URL, requestXML);
 			Map map = XMLUtil.doXMLParse(resXml);
 			String returnCode = (String) map.get("return_code");
 			if("SUCCESS".equals(returnCode)){
@@ -97,16 +101,16 @@ public class CpWxPayServiceImpl implements CpWxPayService {
 		//注意参数初始化 这只是个Demo
 		SortedMap<Object, Object> packageParams = new TreeMap<Object, Object>();
 		//封装通用参数
-		ConfigUtil.commonParams(packageParams);
+        wxPayUtil.commonParams(packageParams);
 		packageParams.put("product_id", product.getProductId());//真实商品ID
 		packageParams.put("time_stamp", PayCommonUtil.getCurrTime());
 		//生成签名
-		String sign = PayCommonUtil.createSign("UTF-8", packageParams, ConfigUtil.API_KEY);
+		String sign = PayCommonUtil.createSign("UTF-8", packageParams, wxPayUtil.wxPay().getApiKey());
 		//组装二维码信息(注意全角和半角：的区别 狗日的腾讯)
     	StringBuffer qrCode = new StringBuffer();
     	qrCode.append("weixin://wxpay/bizpayurl?");
-    	qrCode.append("appid="+ConfigUtil.APP_ID);
-    	qrCode.append("&mch_id="+ConfigUtil.MCH_ID);
+    	qrCode.append("appid="+wxPayUtil.wxPay().getAppId());
+    	qrCode.append("&mch_id="+wxPayUtil.wxPay().getMchId());
     	qrCode.append("&nonce_str="+packageParams.get("nonce_str"));
     	qrCode.append("&product_id="+product.getProductId());
     	qrCode.append("&time_stamp="+packageParams.get("time_stamp"));
@@ -120,18 +124,18 @@ public class CpWxPayServiceImpl implements CpWxPayService {
         String imgPath= filePath+ Constants.SF_FILE_SEPARATOR + imgName;
         ZxingUtils.getQRCodeImge(qrCode.toString(), 256, imgPath);// 生成二维码
 	}
-	@SuppressWarnings("rawtypes")
+
 	@Override
 	public String wxRefund(Product product) {
 		logger.info("订单号：{}微信退款",product.getOutTradeNo());
 		String  message = Constants.SUCCESS;
 		try {
 			// 账号信息
-			String mch_id = ConfigUtil.MCH_ID; // 商业号
-			String key = ConfigUtil.API_KEY; // key
+			String mch_id = wxPayUtil.wxPay().getMchId(); // 商业号
+			String key = wxPayUtil.wxPay().getApiKey(); // key
 			
 			SortedMap<Object, Object> packageParams = new TreeMap<Object, Object>();
-			ConfigUtil.commonParams(packageParams);
+            wxPayUtil.commonParams(packageParams);
 			packageParams.put("out_trade_no", product.getOutTradeNo());// 商户订单号
 			packageParams.put("out_refund_no", product.getOutTradeNo());//商户退款单号
 			String totalFee = product.getTotalFee();
@@ -142,7 +146,7 @@ public class CpWxPayServiceImpl implements CpWxPayService {
 			String sign = PayCommonUtil.createSign("UTF-8", packageParams, key);
 			packageParams.put("sign", sign);// 签名
 			String requestXML = PayCommonUtil.getRequestXml(packageParams);
-			String wxPost = ClientCustomSSL.doRefund(ConfigUtil.REFUND_URL, requestXML);
+			String wxPost = wxPayUtil.doRefund(WxPayUrl.REFUND_URL, requestXML);
 			Map map = XMLUtil.doXMLParse(wxPost);
 			String returnCode = (String) map.get("return_code");
 			if("SUCCESS".equals(returnCode)){
@@ -171,14 +175,14 @@ public class CpWxPayServiceImpl implements CpWxPayService {
 		logger.info("订单号：{}微信关闭订单",product.getOutTradeNo());
 		String  message = Constants.SUCCESS;
 		try {
-			String key = ConfigUtil.API_KEY; // key
-			SortedMap<Object, Object> packageParams = new TreeMap<Object, Object>();
-			ConfigUtil.commonParams(packageParams);
+			String key = wxPayUtil.wxPay().getApiKey(); // key
+			SortedMap<Object, Object> packageParams = new TreeMap<>();
+            wxPayUtil.commonParams(packageParams);
 			packageParams.put("out_trade_no", product.getOutTradeNo());// 商户订单号
 			String sign = PayCommonUtil.createSign("UTF-8", packageParams, key);
 			packageParams.put("sign", sign);// 签名
 			String requestXML = PayCommonUtil.getRequestXml(packageParams);
-			String resXml = HttpUtil.postData(ConfigUtil.CLOSE_ORDER_URL, requestXML);
+			String resXml = HttpUtil.postData(WxPayUrl.CLOSE_ORDER_URL, requestXML);
 			Map map = XMLUtil.doXMLParse(resXml);
 			String returnCode = (String) map.get("return_code");
 			if("SUCCESS".equals(returnCode)){
@@ -218,18 +222,18 @@ public class CpWxPayServiceImpl implements CpWxPayService {
 	@Override
 	public void saveBill() {
 		try {
-			String key = ConfigUtil.API_KEY; // key
+            String key = wxPayUtil.wxPay().getApiKey(); // key
 			//获取两天以前的账单
 			//String billDate = DateUtils.getBeforeDayDate("2");
 			SortedMap<Object, Object> packageParams = new TreeMap<Object, Object>();
-			ConfigUtil.commonParams(packageParams);//公用部分
+            wxPayUtil.commonParams(packageParams);//公用部分
 			packageParams.put("bill_type", "ALL");//ALL，返回当日所有订单信息，默认值SUCCESS，返回当日成功支付的订单REFUND，返回当日退款订单
 			//packageParams.put("tar_type", "GZIP");//压缩账单
 			packageParams.put("bill_date", "20161206");//账单日期
 			String sign = PayCommonUtil.createSign("UTF-8", packageParams, key);
 			packageParams.put("sign", sign);// 签名
 			String requestXML = PayCommonUtil.getRequestXml(packageParams);
-			String resXml = HttpUtil.postData(ConfigUtil.DOWNLOAD_BILL_URL, requestXML);
+			String resXml = HttpUtil.postData(WxPayUrl.DOWNLOAD_BILL_URL, requestXML);
             if(resXml.startsWith("<xml>")){
             	Map map = XMLUtil.doXMLParse(resXml);
     			String returnMsg = (String) map.get("return_msg");
@@ -250,7 +254,7 @@ public class CpWxPayServiceImpl implements CpWxPayService {
 		totalFee =  CommonUtils.subZeroAndDot(totalFee);
 		String redirect_uri = serverUrl+"weixinMobile/dopay?outTradeNo="+product.getOutTradeNo()+"&totalFee="+totalFee;
 		//也可以通过state传递参数 redirect_uri 后面加参数未经过验证
-		return SnsAPI.connectOauth2Authorize(ConfigUtil.APP_ID, redirect_uri, true,null);
+		return SnsAPI.connectOauth2Authorize(wxPayUtil.wxPay().getAppId(), redirect_uri, true,null);
 	}
 
 	@Override
@@ -259,10 +263,10 @@ public class CpWxPayServiceImpl implements CpWxPayService {
 		String  mweb_url = "";
 		try {
 			// 账号信息
-			String key = ConfigUtil.API_KEY; // key
+            String key = wxPayUtil.wxPay().getApiKey(); // key
 			String trade_type = "MWEB";//交易类型 H5 支付 
 			SortedMap<Object, Object> packageParams = new TreeMap<Object, Object>();
-			ConfigUtil.commonParams(packageParams);
+            wxPayUtil.commonParams(packageParams);
 			packageParams.put("product_id", product.getProductId());// 商品ID
 			packageParams.put("body", product.getBody());// 商品描述
 			packageParams.put("out_trade_no", product.getOutTradeNo());// 商户订单号
@@ -286,7 +290,7 @@ public class CpWxPayServiceImpl implements CpWxPayService {
 			packageParams.put("sign", sign);// 签名
 
 			String requestXML = PayCommonUtil.getRequestXml(packageParams);
-			String resXml = HttpUtil.postData(ConfigUtil.UNIFIED_ORDER_URL, requestXML);
+			String resXml = HttpUtil.postData(WxPayUrl.UNIFIED_ORDER_URL, requestXML);
 			Map map = XMLUtil.doXMLParse(resXml);
 			String returnCode = (String) map.get("return_code");
 			if("SUCCESS".equals(returnCode)){
@@ -323,14 +327,14 @@ public class CpWxPayServiceImpl implements CpWxPayService {
 	public void orderquery(Product product) {
 		try {
 			// 账号信息
-			String key = ConfigUtil.API_KEY; // key
+            String key = wxPayUtil.wxPay().getApiKey(); // key
 			SortedMap<Object, Object> packageParams = new TreeMap<Object, Object>();
-			ConfigUtil.commonParams(packageParams);
+            wxPayUtil.commonParams(packageParams);
 			packageParams.put("out_trade_no", product.getOutTradeNo());// 商户订单号
 			String sign = PayCommonUtil.createSign("UTF-8", packageParams, key);
 			packageParams.put("sign", sign);// 签名
 			String requestXML = PayCommonUtil.getRequestXml(packageParams);
-			String resXml = HttpUtil.postData(ConfigUtil.CHECK_ORDER_URL, requestXML);
+			String resXml = HttpUtil.postData(WxPayUrl.CHECK_ORDER_URL, requestXML);
 			Map map = XMLUtil.doXMLParse(resXml);
 			String returnCode = (String) map.get("return_code");
 			logger.info(returnCode);

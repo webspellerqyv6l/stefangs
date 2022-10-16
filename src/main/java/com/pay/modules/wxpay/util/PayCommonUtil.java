@@ -1,27 +1,18 @@
 package com.pay.modules.wxpay.util;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-import java.util.SortedMap;
+import java.util.*;
 
 public class PayCommonUtil {
-	/**
-	 * 是否签名正确,规则是:按参数名称a-z排序,遇到空值的参数不参加签名。 
-	 * @Author  科帮网
-	 * @param characterEncoding
-	 * @param packageParams
-	 * @param API_KEY
-	 * @return  boolean
-	 * @Date	2017年7月31日
-	 * 更新日志
-	 * 2017年7月31日  科帮网 首次创建
-	 *
-	 */
-	@SuppressWarnings({ "rawtypes"})
-    public static boolean isTenpaySign(String characterEncoding, SortedMap<Object, Object> packageParams, String API_KEY) {  
+
+    /**
+     * 是否签名正确,规则是:按参数名称a-z排序,遇到空值的参数不参加签名
+     * @param characterEncoding
+     * @param packageParams
+     * @param API_KEY
+     * @return
+     */
+    public static boolean isTenpaySign(String characterEncoding, SortedMap<Object, Object> packageParams, String API_KEY) {
         StringBuffer sb = new StringBuffer();  
         Set es = packageParams.entrySet();  
         Iterator it = es.iterator();  
@@ -35,24 +26,19 @@ public class PayCommonUtil {
         }  
         sb.append("key=" + API_KEY);  
         //算出摘要  
-        String mysign = MD5Util.MD5Encode(sb.toString(), characterEncoding).toLowerCase();  
-        String tenpaySign = ((String)packageParams.get("sign")).toLowerCase();  
-        return tenpaySign.equals(mysign);  
-    }  
+        String mySign = MD5Util.MD5Encode(sb.toString(), characterEncoding).toLowerCase();
+        String tenPaySign = ((String)packageParams.get("sign")).toLowerCase();
+        return tenPaySign.equals(mySign);
+    }
+
     /**
      * sign签名
-     * @Author  科帮网
      * @param characterEncoding
      * @param packageParams
      * @param API_KEY
-     * @return  String
-     * @Date	2017年7月31日
-     * 更新日志
-     * 2017年7月31日  科帮网 首次创建
-     *
+     * @return
      */
-    @SuppressWarnings({ "rawtypes"})
-	public static String createSign(String characterEncoding, SortedMap<Object, Object> packageParams, String API_KEY) {  
+	public static String createSign(String characterEncoding, SortedMap<Object, Object> packageParams, String API_KEY) {
         StringBuffer sb = new StringBuffer();  
         Set es = packageParams.entrySet();  
         Iterator it = es.iterator();  
@@ -64,23 +50,17 @@ public class PayCommonUtil {
                 sb.append(k + "=" + v + "&");  
             }  
         }  
-        sb.append("key=" + API_KEY);  
-        String sign = MD5Util.MD5Encode(sb.toString(), characterEncoding).toUpperCase();  
+        sb.append("key=" + API_KEY);
+        String sign = MD5Util.MD5Encode(sb.toString(), characterEncoding).toUpperCase();
         return sign;  
-    }  
-  
-   /**
-    * 将请求参数转换为xml格式的string
-    * @Author  科帮网
-    * @param parameters
-    * @return  String
-    * @Date	2017年7月31日
-    * 更新日志
-    * 2017年7月31日  科帮网 首次创建
-    *
-    */
-    @SuppressWarnings({ "rawtypes"})
-    public static String getRequestXml(SortedMap<Object, Object> parameters) {  
+    }
+
+    /**
+     * 将请求参数转换为xml格式的string
+     * @param parameters
+     * @return
+     */
+    public static String getRequestXml(SortedMap<Object, Object> parameters) {
         StringBuffer sb = new StringBuffer();  
         sb.append("<xml>");  
         Set es = parameters.entrySet();  
@@ -97,18 +77,13 @@ public class PayCommonUtil {
         }  
         sb.append("</xml>");  
         return sb.toString();  
-    }  
-  
-   /**
-    * 取出一个指定长度大小的随机正整数. 
-    * @Author  科帮网
-    * @param length
-    * @return  int
-    * @Date	2017年7月31日
-    * 更新日志
-    * 2017年7月31日  科帮网 首次创建
-    *
-    */
+    }
+
+    /**
+     * 取出一个指定长度大小的随机正整数.
+     * @param length
+     * @return
+     */
     public static int buildRandom(int length) {  
         int num = 1;  
         double random = Math.random();  
@@ -122,9 +97,8 @@ public class PayCommonUtil {
     }  
   
     /** 
-     * 获取当前时间 yyyyMMddHHmmss 
-     *  
-     * @return String 
+     * 获取当前时间
+     * @return String
      */  
     public static String getCurrTime() {  
         Date now = new Date();  

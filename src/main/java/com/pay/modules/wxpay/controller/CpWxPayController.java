@@ -1,19 +1,11 @@
 package com.pay.modules.wxpay.controller;
+
+import com.pay.common.constants.Constants;
+import com.pay.common.model.Product;
+import com.pay.modules.wxpay.service.CpWxPayService;
+import com.pay.modules.wxpay.util.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.SortedMap;
-import java.util.TreeMap;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,13 +15,16 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.pay.common.constants.Constants;
-import com.pay.common.model.Product;
-import com.pay.modules.wxpay.service.CpWxPayService;
-import com.pay.modules.wxpay.util.ConfigUtil;
-import com.pay.modules.wxpay.util.HttpUtil;
-import com.pay.modules.wxpay.util.PayCommonUtil;
-import com.pay.modules.wxpay.util.XMLUtil;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 /**
  * 微信支付
  * 创建者 科帮网
@@ -46,6 +41,9 @@ public class CpWxPayController {
 	private CpWxPayService cpWxPayService;
 	@Value("${wxPay.notify.url}")
 	private String notifyUrl;
+
+    @Autowired
+    private WxPayUtil wxPayUtil;
 	
 
 	@ApiOperation(value="二维码支付(模式一)根据商品ID预先生成二维码")
@@ -116,7 +114,7 @@ public class CpWxPayController {
 			packageParams.put(parameter, v);
 		}
 		// 账号信息
-		String key = ConfigUtil.API_KEY; // key
+		String key = wxPayUtil.wxPay().getApiKey(); // key
 		// 判断签名是否正确
 		if (PayCommonUtil.isTenpaySign("UTF-8", packageParams, key)) {
 			logger.info("微信支付成功回调");
@@ -190,10 +188,10 @@ public class CpWxPayController {
 			packageParams.put(parameter, v);
 		}
         //判断签名是否正确
-        if (PayCommonUtil.isTenpaySign("UTF-8", packageParams, ConfigUtil.API_KEY)) {
+        if (PayCommonUtil.isTenpaySign("UTF-8", packageParams, wxPayUtil.wxPay().getApiKey())) {
         	//统一下单
             SortedMap<Object, Object> params = new TreeMap<Object, Object>();
-    		ConfigUtil.commonParams(params);
+            wxPayUtil.commonParams(params);
     		//随即生成一个 入库 走业务逻辑
     		String out_trade_no=Long.toString(System.currentTimeMillis());
     		params.put("body", "模式一扫码支付");// 商品描述
@@ -203,11 +201,11 @@ public class CpWxPayController {
     		params.put("notify_url", notifyUrl);// 回调地址
     		params.put("trade_type", "NATIVE");// 交易类型
     		
-    		String paramsSign = PayCommonUtil.createSign("UTF-8", params, ConfigUtil.API_KEY);
+    		String paramsSign = PayCommonUtil.createSign("UTF-8", params, wxPayUtil.wxPay().getApiKey());
     		params.put("sign", paramsSign);// 签名
     		String requestXML = PayCommonUtil.getRequestXml(params);
 
-    		String resXml = HttpUtil.postData(ConfigUtil.UNIFIED_ORDER_URL, requestXML);
+    		String resXml = HttpUtil.postData(WxPayUrl.UNIFIED_ORDER_URL, requestXML);
     		Map<String, String>  payResult = XMLUtil.doXMLParse(resXml);
     		String returnCode =  payResult.get("return_code");
     		if("SUCCESS".equals(returnCode)){
@@ -217,11 +215,11 @@ public class CpWxPayController {
     				
                     String prepay_id = payResult.get("prepay_id");
                     SortedMap<Object, Object> prepayParams = new TreeMap<>();
-                    ConfigUtil.commonParams(params);
+                    wxPayUtil.commonParams(params);
                     prepayParams.put("prepay_id", prepay_id);
                     prepayParams.put("return_code", "SUCCESS");
                     prepayParams.put("result_code", "SUCCESS");
-                    String prepaySign =  PayCommonUtil.createSign("UTF-8", prepayParams, ConfigUtil.API_KEY);
+                    String prepaySign =  PayCommonUtil.createSign("UTF-8", prepayParams, wxPayUtil.wxPay().getApiKey());
                     prepayParams.put("sign", prepaySign);
                     String prepayXml = PayCommonUtil.getRequestXml(prepayParams);
                     

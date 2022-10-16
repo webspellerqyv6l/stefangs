@@ -1,16 +1,16 @@
 package com.pay.modules.wxpay.util.mobile;
 
+import com.google.gson.Gson;
+import org.dom4j.Document;
+import org.dom4j.Element;
+import org.dom4j.io.SAXReader;
+
+import javax.servlet.http.HttpServletRequest;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.servlet.http.HttpServletRequest;
-import org.dom4j.Document;
-import org.dom4j.Element;
-import org.dom4j.io.SAXReader;
-import com.google.gson.Gson;
-import com.pay.modules.wxpay.util.ConfigUtil;
 /**
  * 微信H5支付工具类
  * 创建者 科帮网
@@ -30,9 +30,9 @@ public class MobileUtil {
 	public static String getOpenId(String code){
 		if (code != null) {
 			String url = "https://api.weixin.qq.com/sns/oauth2/access_token?"
-					+ "appid="+ ConfigUtil.APP_ID
-					+ "&secret="+ ConfigUtil.APP_SECRET + "&code="
-					+code + "&grant_type=authorization_code";
+					+ "appid=****"
+					+ "&secret=******&code="
+					+ code + "&grant_type=authorization_code";
 			String returnData = getReturnData(url);
 			Gson gson = new Gson();
 			OpenIdClass openIdClass = gson.fromJson(returnData,
@@ -88,11 +88,11 @@ public class MobileUtil {
 		// 得到根元素的所有子节点
 		List<Element> elementList = root.elements();
 		// 遍历所有子节点
-		for (Element e : elementList)
-			map.put(e.getName(), e.getText());
+		for (Element e : elementList) {
+            map.put(e.getName(), e.getText());
+        }
 		// 释放资源
 		inputStream.close();
-		inputStream = null;
 		return map;
 	}
 }
