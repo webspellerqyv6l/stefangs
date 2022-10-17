@@ -22,7 +22,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * 1）Dubbo 2.6.2 升级为 2.7.3
  * 2）dubbo-spring-boot-starter 2.0.0 升级为 2.7.3
  *
- * 官网：https://pay.cloudbed.vip
+ * 一个更强大通用的支付管理后台：https://pay.cloudbed.vip
+ * 演示账号：pay 密码：123456
  */
 @EnableDubbo(scanBasePackages  = "com.pay.modules")
 @SpringBootApplication
