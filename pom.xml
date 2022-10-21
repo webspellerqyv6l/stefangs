@@ -194,10 +194,10 @@
 							<finalName>pay-service</finalName>
 							<outputDirectory>${project.build.directory}</outputDirectory>
 							<includes>
-								<include>com/itstyle/modules/alipay/service/*.*</include>
-								<include>com/itstyle/modules/unionpay/service/*.*</include>
-								<include>com/itstyle/modules/weixinpay/service/*.*</include>
-								<include>com/itstyle/common/model/*.*</include>
+								<include>com/pay/modules/alipay/service/*.*</include>
+								<include>com/pay/modules/unionpay/service/*.*</include>
+								<include>com/pay/modules/wxpay/service/*.*</include>
+								<include>com/pay/common/model/*.*</include>
 							</includes>
 						</configuration>
 					</execution>
