@@ -62,5 +62,4 @@ public class AliPayController {
             return "ERROR";
         }
     }
-
 }

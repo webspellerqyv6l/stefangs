@@ -44,7 +44,6 @@ public class CpWxPayController {
 
     @Autowired
     private WxPayUtil wxPayUtil;
-	
 
 	@ApiOperation(value="二维码支付(模式一)根据商品ID预先生成二维码")
 	@RequestMapping(value="qcPay1",method=RequestMethod.POST)
@@ -74,6 +73,7 @@ public class CpWxPayController {
 		}
 		return "wxPay/qcpay";
     }
+
 	/**
 	 * 支付后台回调
 	 * @Author  科帮网
@@ -85,8 +85,8 @@ public class CpWxPayController {
 	 * 2017年7月31日  科帮网 首次创建
 	 */
 	@ApiOperation(value="支付后台回调")
-	@RequestMapping(value="pay",method=RequestMethod.POST)
-	public void weixin_notify(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	@RequestMapping(value="notify",method=RequestMethod.POST)
+	public void notify(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		// 读取参数
 		InputStream inputStream = request.getInputStream();
 		StringBuffer sb = new StringBuffer();
@@ -145,6 +145,7 @@ public class CpWxPayController {
 		}
 
 	}
+
 	/**
 	 * 模式一支付回调URL(生成二维码见 qrCodeUtil)
 	 * 商户支付回调URL设置指引：进入公众平台-->微信支付-->开发配置-->扫码支付-->修改

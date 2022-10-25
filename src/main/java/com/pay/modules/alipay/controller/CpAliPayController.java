@@ -51,6 +51,7 @@ public class CpAliPayController {
 		map.addAttribute("form", form);
 		return "aliPay/pay";
     }
+
 	@ApiOperation(value="手机H5支付")
 	@RequestMapping(value="mobilePay",method=RequestMethod.POST)
     public String  mobilePay(Product product,ModelMap map) {
@@ -59,6 +60,7 @@ public class CpAliPayController {
 		map.addAttribute("form", form);
 		return "aliPay/pay";
     }
+
 	@ApiOperation(value="二维码支付")
 	@RequestMapping(value="qcPay",method=RequestMethod.POST)
     public String  qcPay(Product product,ModelMap map) {
@@ -72,6 +74,7 @@ public class CpAliPayController {
 		}
 		return "aliPay/qcpay";
     }
+
 	@ApiOperation(value="app支付服务端")
 	@RequestMapping(value="appPay",method=RequestMethod.POST)
     public String  appPay(Product product,ModelMap map) {
@@ -80,6 +83,7 @@ public class CpAliPayController {
 		map.addAttribute("orderString", orderString);
 		return "aliPay/pay";
     }
+
     /**
      * 支付宝支付后台回调(二维码、H5、网站)
      * @Author  科帮网
@@ -91,8 +95,8 @@ public class CpAliPayController {
      * 2017年7月30日  科帮网 首次创建
      */
 	@ApiOperation(value="支付宝支付回调(二维码、H5、网站)")
-	@RequestMapping(value="pay",method=RequestMethod.POST)
-	public void alipay_notify(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	@RequestMapping(value="notify",method=RequestMethod.POST)
+	public void notify(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String  message = "success";
 		Map<String, String> params = new HashMap<>();
 		// 取出所有参数是为了验证签名

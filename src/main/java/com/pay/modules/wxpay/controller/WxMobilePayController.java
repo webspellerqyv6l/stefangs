@@ -43,8 +43,7 @@ public class WxMobilePayController {
 	@Autowired
 	private CpWxPayService weixinPayService;
 	@Value("${server.context.url}")
-	private String server_url;
-
+	private String serverUrl;
     @Autowired
     private WxPayUtil wxPayUtil;
 	
@@ -92,7 +91,6 @@ public class WxMobilePayController {
 	 * 2017年7月31日  科帮网 首次创建
 	 *
 	 */
-	@SuppressWarnings("rawtypes")
 	@ApiOperation(value="预下单")
 	@RequestMapping(value="dopay",method=RequestMethod.POST)
 	public String dopay(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -102,7 +100,7 @@ public class WxMobilePayController {
 		String code = request.getParameter("code");
 		//获取用户openID(JSAPI支付必须传openid)
 		String openId = MobileUtil.getOpenId(code);
-		String notify_url =server_url+"/weixinMobile/WXPayBack";//回调接口
+		String notify_url =serverUrl+"/weixinMobile/WXPayBack";//回调接口
 		String trade_type = "JSAPI";// 交易类型H5支付 也可以是小程序支付参数
 		SortedMap<Object, Object> packageParams = new TreeMap<Object, Object>();
         wxPayUtil.commonParams(packageParams);
