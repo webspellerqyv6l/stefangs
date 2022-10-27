@@ -274,6 +274,10 @@ AlipayClient alipayClient = new DefaultAlipayClient(
 
 个人支付演示地址：[https://pay.cloudbed.vip](https://pay.cloudbed.vip) 账号：pay 密码：123456
 
+#### 2020-11-24 更新说明：
+
+优化微信支付读取配置文件方式，紧跟时代脚步
+
 
 ## 推荐算法
 
