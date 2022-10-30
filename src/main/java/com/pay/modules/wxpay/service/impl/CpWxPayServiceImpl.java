@@ -78,7 +78,7 @@ public class CpWxPayServiceImpl implements CpWxPayService {
                     String imgName = product.getOutTradeNo()+".png";
                     String imgPath= filePath+ Constants.SF_FILE_SEPARATOR + imgName;
                     ZxingUtils.getQRCodeImge(urlCode, 256, imgPath);// 生成二维码
-                    message = imgName;
+                    message = imgPath;
 				}else{
 					String errCodeDes = (String) map.get("err_code_des");
 					logger.info("订单号：{}生成微信支付码(系统)失败:{}",product.getOutTradeNo(),errCodeDes);

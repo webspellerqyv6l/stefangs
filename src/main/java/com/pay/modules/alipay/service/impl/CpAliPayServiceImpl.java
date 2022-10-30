@@ -67,15 +67,17 @@ public class CpAliPayServiceImpl implements CpAliPayService {
 	private static final Logger logger = LoggerFactory.getLogger(CpAliPayServiceImpl.class);
 	
 	@Value("${aliPay.notify.url}")
-	private String notify_url;
-	
+	private String notifyUrl;
+    @Value("${file.path}")
+    private String filePath;
+    @Value("${server.context.url}")
+    private String projectUrl;
+
+
 	@Override
 	public String aliPay(Product product) {
 		logger.info("订单号：{}生成支付宝支付码",product.getOutTradeNo());
 		String  message = Constants.SUCCESS;
-		//二维码存放路径
-		System.out.println(Constants.QRCODE_PATH);
-		String imgPath= Constants.QRCODE_PATH+Constants.SF_FILE_SEPARATOR+product.getOutTradeNo()+".png";
 		String outTradeNo = product.getOutTradeNo();
 		String subject = product.getSubject();
 		String totalAmount =  CommonUtils.divide(product.getTotalFee(), "100").toString();
@@ -96,20 +98,23 @@ public class CpAliPayServiceImpl implements CpAliPayService {
 		.setTotalAmount(totalAmount)
 		.setOutTradeNo(outTradeNo)
 		.setSellerId(sellerId)
-		.setBody(body)//128长度 --附加信息
+		.setBody(body)
 		.setStoreId(storeId)
 		.setExtendParams(extendParams)
 		.setTimeoutExpress(timeoutExpress)
-        .setNotifyUrl(notify_url);//支付宝服务器主动通知商户服务器里指定的页面http路径,根据需要设置
+        .setNotifyUrl(notifyUrl);//支付宝服务器主动通知商户服务器里指定的页面http路径,根据需要设置
 		
 		AlipayF2FPrecreateResult result = AliPayConfig.getAlipayTradeService().tradePrecreate(builder);
 		switch (result.getTradeStatus()) {
 		case SUCCESS:
 			logger.info("支付宝预下单成功: )");
-			
 			AlipayTradePrecreateResponse response = result.getResponse();
+            String imgName = outTradeNo+".png";
+            String imgPath= filePath+ Constants.SF_FILE_SEPARATOR + imgName;
+            ZxingUtils.getQRCodeImge(response.getQrCode(), 256, imgPath);
+            String imgUrl = projectUrl+"/file/"+imgName;
+            message = imgUrl;
 			dumpResponse(response);
-			ZxingUtils.getQRCodeImge(response.getQrCode(), 256, imgPath);
 			break;
 			
 		case FAILED:
@@ -196,29 +201,24 @@ public class CpAliPayServiceImpl implements CpAliPayService {
 		logger.info("订单号："+product.getOutTradeNo()+"支付宝关闭订单");
 		String  message = Constants.SUCCESS;
 		try {
-			String imgPath= Constants.QRCODE_PATH+Constants.SF_FILE_SEPARATOR+"alipay_"+product.getOutTradeNo()+".png";
-			File file = new File(imgPath);
-            if(file.exists()){
-            	AlipayClient alipayClient = AliPayConfig.getAlipayClient();
-            	AlipayTradeCloseRequest request = new AlipayTradeCloseRequest();
-            	request.setBizContent("{" +
-            			"    \"out_trade_no\":\""+product.getOutTradeNo()+"\"" +
-            			"  }");
-            	AlipayTradeCloseResponse response = alipayClient.execute(request);
-            	if(response.isSuccess()){//扫码未支付的情况
-            		logger.info("订单号："+product.getOutTradeNo()+"支付宝关闭订单成功并删除支付二维码");
-            		file.delete();
-            	}else{
-            		if("ACQ.TRADE_NOT_EXIST".equals(response.getSubCode())){
-            			logger.info("订单号："+product.getOutTradeNo()+response.getSubMsg()+"(预下单 未扫码的情况)");
-            		}else if("ACQ.TRADE_STATUS_ERROR".equals(response.getSubCode())){
-            			logger.info("订单号："+product.getOutTradeNo()+response.getSubMsg());
-            		}else{
-            			logger.info("订单号："+product.getOutTradeNo()+"支付宝关闭订单失败"+response.getSubCode()+response.getSubMsg());
-            			message = Constants.FAIL;
-            		}
-            	}
-			}
+            AlipayClient alipayClient = AliPayConfig.getAlipayClient();
+            AlipayTradeCloseRequest request = new AlipayTradeCloseRequest();
+            request.setBizContent("{" +
+                    "    \"out_trade_no\":\""+product.getOutTradeNo()+"\"" +
+                    "  }");
+            AlipayTradeCloseResponse response = alipayClient.execute(request);
+            if(response.isSuccess()){
+                logger.info("订单号："+product.getOutTradeNo()+"支付宝关闭订单成功并删除支付二维码");
+            }else{
+                if("ACQ.TRADE_NOT_EXIST".equals(response.getSubCode())){
+                    logger.info("订单号："+product.getOutTradeNo()+response.getSubMsg()+"(预下单 未扫码的情况)");
+                }else if("ACQ.TRADE_STATUS_ERROR".equals(response.getSubCode())){
+                    logger.info("订单号："+product.getOutTradeNo()+response.getSubMsg());
+                }else{
+                    logger.info("订单号："+product.getOutTradeNo()+"支付宝关闭订单失败"+response.getSubCode()+response.getSubMsg());
+                    message = Constants.FAIL;
+                }
+            }
 		} catch (Exception e) {
 			e.printStackTrace();
 			message = Constants.FAIL;
@@ -255,7 +255,7 @@ public class CpAliPayServiceImpl implements CpAliPayService {
 		AlipayTradeWapPayRequest alipayRequest = new AlipayTradeWapPayRequest();
 		String returnUrl = "回调地址 http 自定义";
 		alipayRequest.setReturnUrl(returnUrl);//前台通知
-        alipayRequest.setNotifyUrl(notify_url);//后台回调
+        alipayRequest.setNotifyUrl(notifyUrl);//后台回调
         JSONObject bizContent = new JSONObject();
         bizContent.put("out_trade_no", product.getOutTradeNo());
         bizContent.put("total_amount", product.getTotalFee());//订单金额:元
@@ -280,7 +280,7 @@ public class CpAliPayServiceImpl implements CpAliPayService {
 		AlipayTradePagePayRequest alipayRequest = new AlipayTradePagePayRequest();
 		String returnUrl = "前台回调地址 http 自定义";
 		alipayRequest.setReturnUrl(returnUrl);//前台通知
-        alipayRequest.setNotifyUrl(notify_url);//后台回调
+        alipayRequest.setNotifyUrl(notifyUrl);//后台回调
         JSONObject bizContent = new JSONObject();
         bizContent.put("out_trade_no", product.getOutTradeNo());
         bizContent.put("total_amount", product.getTotalFee());//订单金额:元

@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -44,7 +45,7 @@ public class CpAliPayController {
 	
 
 	@ApiOperation(value="电脑支付")
-	@RequestMapping(value="pcPay",method=RequestMethod.POST)
+	@PostMapping(value="pcPay")
     public String  pcPay(Product product,ModelMap map) {
 		logger.info("电脑支付");
 		String form  =  aliPayService.aliPayPc(product);
@@ -53,7 +54,7 @@ public class CpAliPayController {
     }
 
 	@ApiOperation(value="手机H5支付")
-	@RequestMapping(value="mobilePay",method=RequestMethod.POST)
+	@PostMapping(value="mobilePay")
     public String  mobilePay(Product product,ModelMap map) {
 		logger.info("手机H5支付");
 		String form  =  aliPayService.aliPayMobile(product);
@@ -62,21 +63,20 @@ public class CpAliPayController {
     }
 
 	@ApiOperation(value="二维码支付")
-	@RequestMapping(value="qcPay",method=RequestMethod.POST)
+	@PostMapping(value="qcPay")
     public String  qcPay(Product product,ModelMap map) {
 		logger.info("二维码支付");
 		String message  =  aliPayService.aliPay(product);
-		if(Constants.SUCCESS.equals(message)){
-			String img= "../qrcode/"+product.getOutTradeNo()+".png";
-			map.addAttribute("img", img);
+		if(!Constants.FAIL.equals(message)){
+			map.addAttribute("img", message);
 		}else{
-			//失败
+
 		}
 		return "aliPay/qcpay";
     }
 
 	@ApiOperation(value="app支付服务端")
-	@RequestMapping(value="appPay",method=RequestMethod.POST)
+	@PostMapping(value="appPay")
     public String  appPay(Product product,ModelMap map) {
 		logger.info("app支付服务端");
 		String orderString  =  aliPayService.appPay(product);
@@ -164,8 +164,8 @@ public class CpAliPayController {
 			Map<String,String> params = new HashMap<>();
 			Map<String,String[]> requestParams = request.getParameterMap();
 			for (Iterator<String> iter = requestParams.keySet().iterator(); iter.hasNext();) {
-				String name = (String) iter.next();
-				String[] values = (String[]) requestParams.get(name);
+				String name = iter.next();
+				String[] values = requestParams.get(name);
 				String valueStr = "";
 				for (int i = 0; i < values.length; i++) {
 					valueStr = (i == values.length - 1) ? valueStr + values[i]

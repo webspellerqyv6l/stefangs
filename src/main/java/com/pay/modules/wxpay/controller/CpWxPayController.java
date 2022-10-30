@@ -67,7 +67,7 @@ public class CpWxPayController {
 		product.setSpbillCreateIp("192.168.1.66");
 		String message  =  cpWxPayService.wxPay2(product);
 		if(!Constants.FAIL.equals(message)){
-			map.addAttribute("img", "../file/"+message);
+			map.addAttribute("img", message);
 		}else{
 
 		}
