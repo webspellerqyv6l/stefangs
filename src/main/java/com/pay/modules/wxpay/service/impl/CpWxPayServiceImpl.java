@@ -1,9 +1,9 @@
 package com.pay.modules.wxpay.service.impl;
 
-import com.alipay.demo.trade.utils.ZxingUtils;
 import com.pay.common.constants.Constants;
 import com.pay.common.model.Product;
 import com.pay.common.util.CommonUtils;
+import com.pay.common.util.ZxingUtils;
 import com.pay.modules.wxpay.service.CpWxPayService;
 import com.pay.modules.wxpay.util.*;
 import net.sf.json.JSONObject;
@@ -77,7 +77,7 @@ public class CpWxPayServiceImpl implements CpWxPayService {
 					String urlCode = (String) map.get("code_url");
                     String imgName = product.getOutTradeNo()+".png";
                     String imgPath= filePath+ Constants.SF_FILE_SEPARATOR + imgName;
-                    ZxingUtils.getQRCodeImge(urlCode, 256, imgPath);// 生成二维码
+                    ZxingUtils.createQRCodeImage(urlCode, imgPath);
                     message = imgPath;
 				}else{
 					String errCodeDes = (String) map.get("err_code_des");
@@ -122,7 +122,7 @@ public class CpWxPayServiceImpl implements CpWxPayService {
     	 */
         String imgName = product.getOutTradeNo()+".png";
         String imgPath= filePath+ Constants.SF_FILE_SEPARATOR + imgName;
-        ZxingUtils.getQRCodeImge(qrCode.toString(), 256, imgPath);// 生成二维码
+        ZxingUtils.createQRCodeImage(qrCode.toString(), imgPath);
 	}
 
 	@Override

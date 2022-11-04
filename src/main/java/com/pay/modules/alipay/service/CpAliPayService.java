@@ -1,8 +1,6 @@
 package com.pay.modules.alipay.service;
 
 import com.pay.common.model.Product;
-
-import java.util.Map;
 /**
  * 扫码支付以及手机H5支付
  * 创建者 科帮网
@@ -45,7 +43,7 @@ public interface CpAliPayService {
 	 * 2017年7月27日  科帮网 首次创建
 	 *
 	 */
-	String aliCloseorder(Product product);
+	String aliCloseOrder(Product product);
 	/**
      * 下载对账单 
 	 * @Author	科帮网 
@@ -97,17 +95,4 @@ public interface CpAliPayService {
 	 *
 	 */
 	String appPay(Product product);
-	
-	/**
-	 * 验证签名1
-	 * @param params
-	 * @return
-	 */
-	boolean rsaCheckV1(Map<String,String> params);
-	/**
-	 * 验证签名2
-	 * @param params
-	 * @return
-	 */
-	boolean rsaCheckV2(Map<String,String> params);
 }

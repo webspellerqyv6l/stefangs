@@ -25,27 +25,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
-		</dependency>
-		<!-- 再次声明，此SDK需要自行下载，打入本地仓库或者私服！！！！-->
-		<!-- 支付宝 SDK(项目中的支付宝SDk需要自行去官网下载打入本地仓库或者私服)-->
-		<!-- 项目中的支付宝SDk需要自行去官网下载打入本地仓库或者私服，提供下载地址：https://pan.baidu.com/s/1B2_uyrz2uKN1Z_Ivbv7lgw -->
-		<!-- 再次声明一下，这个SDK是支付宝的官方SDK，只是没有加入maven仓库，需要自己自行导入或者打入本地私服！！！！-->
-        <dependency>
-		    <groupId>vip.52itstyle</groupId>
-		    <artifactId>alipay-trade-sdk</artifactId>
-		    <version>1.0.0</version>
-		</dependency>
-		<!-- 官方SDK，时刻关注使用最新版  https://mvnrepository.com/artifact/com.alipay.sdk/alipay-sdk-java -->
-		<dependency>
-			<groupId>com.alipay.sdk</groupId>
-			<artifactId>alipay-sdk-java</artifactId>
-			<version>3.4.27.ALL</version>
 		</dependency>
 		<dependency>
 		    <groupId>org.apache.commons</groupId>
@@ -66,11 +46,11 @@
 		    <artifactId>commons-configuration</artifactId>
 		    <version>1.10</version>
 		</dependency>
-		<dependency>
-		    <groupId>com.google.zxing</groupId>
-		    <artifactId>core</artifactId>
-		    <version>3.2.1</version>
-		</dependency>
+        <dependency>
+            <groupId>com.google.zxing</groupId>
+            <artifactId>javase</artifactId>
+            <version>3.4.1</version>
+        </dependency>
 		<dependency>
 			<groupId>net.sourceforge.nekohtml</groupId>
 			<artifactId>nekohtml</artifactId>
@@ -150,6 +130,11 @@
             <artifactId>lombok</artifactId>
             <version>1.16.18</version>
         </dependency>
+        <dependency>
+            <groupId>com.alipay.sdk</groupId>
+            <artifactId>alipay-easysdk</artifactId>
+            <version>2.1.0</version>
+        </dependency>
 	</dependencies>
 	<build>
 		<finalName>spring-boot-pay</finalName>
@@ -178,7 +163,7 @@
 					</dependency>
 				</dependencies>
 			</plugin>
-			<!-- 邮件服务接口 -->
+			<!-- 支付服务接口 -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
