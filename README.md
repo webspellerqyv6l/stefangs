@@ -66,7 +66,7 @@ JDK1.8、Maven、IDEA、SpringBoot2.2.6、Dubbo2.7.3、zookeeper3.5.3
 
 - 最后想测试相关支付效果，请自行配置支付宝、微信以及银联相关账号以及证书
 
-- 启动并访问项目：http://localhost:8080/spring-boot-pay
+- 启动并访问项目：http://localhost:8080/pay
 
 - 此案例只是实现了部分功能，其它功能大家按需根据自己的业务逻辑自行实现，最重要的下单和回调已经实现
 
@@ -79,7 +79,7 @@ JDK1.8、Maven、IDEA、SpringBoot2.2.6、Dubbo2.7.3、zookeeper3.5.3
 
 ## 支付文档
 
-地址：http://localhost:8080/spring-boot-pay/swagger-ui.html
+地址：http://localhost:8080/pay/swagger-ui.html
 
 配置说明：https://blog.52itstyle.vip/archives/1473/
 
@@ -271,6 +271,14 @@ AlipayClient alipayClient = new DefaultAlipayClient(
 个人也可申请，微信、支付宝官方直连结算。[快来看看吧！](https://mmbizurl.cn/s/hEludsCNs)
 
 个人支付演示地址：[https://pay.cloudbed.vip](https://pay.cloudbed.vip) 账号：pay 密码：123456
+
+
+#### 2020-12-09 更新说明：
+
+引入新版支付宝SDK，移除旧版依赖，开发者无须再自行把JAR打入本地私服。
+
+让配置更加简单，调用API更加灵活便捷。
+
 
 
 ## 推荐算法
