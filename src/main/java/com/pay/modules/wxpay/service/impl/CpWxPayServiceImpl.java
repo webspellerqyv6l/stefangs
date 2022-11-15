@@ -98,7 +98,7 @@ public class CpWxPayServiceImpl implements CpWxPayService {
 	public void wxPay1(Product product) {
 		//商户支付回调URL设置指引：进入公众平台-->微信支付-->开发配置-->扫码支付-->修改 加入回调URL
 		//注意参数初始化 这只是个Demo
-		SortedMap<Object, Object> packageParams = new TreeMap<Object, Object>();
+		SortedMap<Object, Object> packageParams = new TreeMap<>();
 		//封装通用参数
         wxPayUtil.commonParams(packageParams);
 		packageParams.put("product_id", product.getProductId());//真实商品ID
@@ -114,12 +114,13 @@ public class CpWxPayServiceImpl implements CpWxPayService {
     	qrCode.append("&product_id="+product.getProductId());
     	qrCode.append("&time_stamp="+packageParams.get("time_stamp"));
     	qrCode.append("&sign="+sign);
+    	logger.info("支付信息：{}",qrCode);
     	/**
     	 * 生成二维码
     	 * 1、这里如果是一个单独的服务的话，建议直接返回qrCode即可，调用方自己生成二维码
-    	 * 2、 如果真要生成，生成到系统绝对路径
+    	 * 2、如果真要生成，生成到系统绝对路径
     	 */
-        String imgName = product.getOutTradeNo()+".png";
+        String imgName = product.getProductId()+".png";
         String imgPath= filePath+ Constants.SF_FILE_SEPARATOR + imgName;
         ZxingUtils.createQRCodeImage(qrCode.toString(), imgPath);
 	}

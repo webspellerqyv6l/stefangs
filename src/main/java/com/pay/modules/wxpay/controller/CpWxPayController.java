@@ -1,6 +1,5 @@
 package com.pay.modules.wxpay.controller;
 
-import com.pay.common.constants.Constants;
 import com.pay.common.model.Product;
 import com.pay.common.model.Result;
 import com.pay.modules.wxpay.service.CpWxPayService;
@@ -54,10 +53,11 @@ public class CpWxPayController {
 	@RequestMapping(value="qcPay1",method=RequestMethod.POST)
     public String  qcPay1(Product product,ModelMap map) {
 		logger.info("二维码支付(模式一)");
+        product.setProductId("20170721");
         cpWxPayService.wxPay1(product);
 		String img= "../file/"+product.getProductId()+".png";
 		map.addAttribute("img", img);
-		return "wxPay/qcpay";
+		return "wxPay/qcPay";
     }
 
 	@ApiOperation(value="二维码支付(模式二)下单并生成二维码")
@@ -76,7 +76,7 @@ public class CpWxPayController {
             logger.info("支付二维码地址：{}",imageUrl);
 			map.addAttribute("img", imageUrl);
 		}
-		return "wxPay/qcpay";
+		return "wxPay/qcPay";
     }
 
 	/**
