@@ -2,6 +2,7 @@ package com.pay.modules.wxpay.controller;
 
 import com.pay.common.constants.Constants;
 import com.pay.common.model.Product;
+import com.pay.common.model.Result;
 import com.pay.modules.wxpay.service.CpWxPayService;
 import com.pay.modules.wxpay.util.*;
 import io.swagger.annotations.Api;
@@ -37,13 +38,17 @@ public class CpWxPayController {
 
 	private static final Logger logger = LoggerFactory.getLogger(CpWxPayController.class);
 
-	@Autowired
-	private CpWxPayService cpWxPayService;
-	@Value("${wxPay.notify.url}")
-	private String notifyUrl;
-
     @Autowired
     private WxPayUtil wxPayUtil;
+	@Autowired
+	private CpWxPayService cpWxPayService;
+
+    @Value("${wxPay.notify.url}")
+    private String notifyUrl;
+
+    @Value("${server.context.url}")
+    private String serverUrl;
+
 
 	@ApiOperation(value="二维码支付(模式一)根据商品ID预先生成二维码")
 	@RequestMapping(value="qcPay1",method=RequestMethod.POST)
@@ -57,7 +62,7 @@ public class CpWxPayController {
 
 	@ApiOperation(value="二维码支付(模式二)下单并生成二维码")
 	@RequestMapping(value="qcPay2",method=RequestMethod.POST)
-    public String  qcPay2(Product product,ModelMap map) {
+    public String qcPay2(Product product,ModelMap map) {
 		logger.info("二维码支付(模式二)");
         /**
          * 参数自定义  这只是个Demo
@@ -65,11 +70,11 @@ public class CpWxPayController {
 		product.setProductId("20170721");
 		product.setBody("两个苹果八毛钱 ");
 		product.setSpbillCreateIp("192.168.1.66");
-		String message  =  cpWxPayService.wxPay2(product);
-		if(!Constants.FAIL.equals(message)){
-			map.addAttribute("img", message);
-		}else{
-
+		Result result = cpWxPayService.wxPay2(product);
+        if(Result.isOk(result)){
+            String imageUrl = serverUrl + "/file/" +result.get("msg");
+            logger.info("支付二维码地址：{}",imageUrl);
+			map.addAttribute("img", imageUrl);
 		}
 		return "wxPay/qcpay";
     }

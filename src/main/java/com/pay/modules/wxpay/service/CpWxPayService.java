@@ -1,6 +1,7 @@
 package com.pay.modules.wxpay.service;
 
 import com.pay.common.model.Product;
+import com.pay.common.model.Result;
 
 public interface CpWxPayService {
 	/**
@@ -14,7 +15,7 @@ public interface CpWxPayService {
 	 * 2017年7月31日  科帮网 首次创建
 	 *
 	 */
-	String wxPay2(Product product);
+	Result wxPay2(Product product);
 	/**
 	 * 微信支付下单(模式一)
 	 * @Author  科帮网

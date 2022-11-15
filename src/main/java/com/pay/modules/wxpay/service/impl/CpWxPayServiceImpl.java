@@ -2,6 +2,7 @@ package com.pay.modules.wxpay.service.impl;
 
 import com.pay.common.constants.Constants;
 import com.pay.common.model.Product;
+import com.pay.common.model.Result;
 import com.pay.common.util.CommonUtils;
 import com.pay.common.util.ZxingUtils;
 import com.pay.modules.wxpay.service.CpWxPayService;
@@ -46,9 +47,8 @@ public class CpWxPayServiceImpl implements CpWxPayService {
 	 * 注意：支付金额和商品描述必须一样，下单后金额或者描述如果有改变也会出现订单号重复。
 	 */
 	@Override
-	public String wxPay2(Product product) {
+	public Result wxPay2(Product product) {
 		logger.info("订单号：{}生成微信支付码",product.getOutTradeNo());
-		String  message;
 		try {
 			// 账号信息
 			String key = wxPayUtil.wxPay().getApiKey();
@@ -78,22 +78,21 @@ public class CpWxPayServiceImpl implements CpWxPayService {
                     String imgName = product.getOutTradeNo()+".png";
                     String imgPath= filePath+ Constants.SF_FILE_SEPARATOR + imgName;
                     ZxingUtils.createQRCodeImage(urlCode, imgPath);
-                    message = imgPath;
+                    return Result.ok(imgName);
 				}else{
 					String errCodeDes = (String) map.get("err_code_des");
-					logger.info("订单号：{}生成微信支付码(系统)失败:{}",product.getOutTradeNo(),errCodeDes);
-					message = Constants.FAIL;
+					logger.error("订单号：{}生成微信支付码(系统)失败:{}",product.getOutTradeNo(),errCodeDes);
+                    return Result.error(errCodeDes);
 				}
 			}else{
 				String returnMsg = (String) map.get("return_msg");
-				logger.info("(订单号：{}生成微信支付码(通信)失败:{}",product.getOutTradeNo(),returnMsg);
-				message = Constants.FAIL;
+				logger.error("(订单号：{}生成微信支付码(通信)失败:{}",product.getOutTradeNo(),returnMsg);
+                return Result.error(returnMsg);
 			}
 		} catch (Exception e) {
 			logger.error("订单号：{}生成微信支付码失败(系统异常))",product.getOutTradeNo(),e);
-			message = Constants.FAIL;
+            return Result.error();
 		}
-		return message;
 	}
 	@Override
 	public void wxPay1(Product product) {

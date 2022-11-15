@@ -30,7 +30,7 @@ public class PayController {
 	}
 	@ApiOperation(value="后台展示")
 	@RequestMapping(value="main",method=RequestMethod.GET)
-	public String main(Model model) throws Exception {
+	public String main(Model model) {
 		model.addAttribute("ip", "192.168.1.66");
 		model.addAttribute("address", "青岛");
 		model.addAttribute("time", DateUtils.getTime());

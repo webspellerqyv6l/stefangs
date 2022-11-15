@@ -50,6 +50,13 @@ public class Result extends HashMap<String, Object> {
 		return r;
 	}
 
+    public static Boolean isOk(Result r) {
+        if(r.get("code").toString().equals("0")){
+            return true;
+        }
+        return false;
+    }
+
 	@Override
 	public Result put(String key, Object value) {
 		super.put(key, value);
