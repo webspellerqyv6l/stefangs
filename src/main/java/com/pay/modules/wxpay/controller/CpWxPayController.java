@@ -102,6 +102,7 @@ public class CpWxPayController {
 		}
 		in.close();
 		inputStream.close();
+
 		// 解析xml成map
 		Map<String, String> m = XMLUtil.doXMLParse(sb.toString());
 		// 过滤空 设置 TreeMap
@@ -110,6 +111,7 @@ public class CpWxPayController {
 		while (it.hasNext()) {
 			String parameter = (String) it.next();
 			String parameterValue = m.get(parameter);
+
 			String v = "";
 			if (null != parameterValue) {
 				v = parameterValue.trim();
@@ -124,8 +126,8 @@ public class CpWxPayController {
 			// ------------------------------
 			// 处理业务开始
 			// ------------------------------
-			String resXml;
-			if ("SUCCESS".equals(packageParams.get("result_code"))) {
+			String resXml = "";
+			if ("SUCCESS".equals((String) packageParams.get("result_code"))) {
 				// 这里是支付成功
 				String orderNo = (String) packageParams.get("out_trade_no");
 				logger.info("微信订单号{}付款成功",orderNo);
@@ -144,8 +146,9 @@ public class CpWxPayController {
 			out.flush();
 			out.close();
 		} else {
-			logger.error("通知签名验证失败");
+			logger.info("通知签名验证失败");
 		}
+
 	}
 
 	/**
