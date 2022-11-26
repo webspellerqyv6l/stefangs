@@ -10,7 +10,7 @@
 
 ## 案例演示
 
-支付管理后台演示地址：[https://pay.cloudbed.vip](https://pay.cloudbed.vip)
+支付管理后台演示地址：[国内领先的支付管理平台](https://paycloud.vip)
 
 ## 你问我答
 
