@@ -16,7 +16,7 @@ import com.pay.common.util.SslUtils;
 import com.pay.common.util.ZxingUtils;
 import com.pay.modules.alipay.service.CpAliPayService;
 import com.pay.modules.alipay.util.CpPayUtils;
-import org.apache.dubbo.config.annotation.Service;
+import org.apache.dubbo.config.annotation.DubboService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +46,7 @@ import org.springframework.beans.factory.annotation.Value;
  * 支付宝建议加签方式升级为RSA(SHA256)密钥，以为 SHA 貌似已经被破解了。
  * 
  */
-@Service(group = "pay-pay", retries = 1, timeout = 10000)
+@DubboService(group = "payCloud", retries = 1, timeout = 10000)
 public class CpAliPayServiceImpl implements CpAliPayService {
 	private static final Logger logger = LoggerFactory.getLogger(CpAliPayServiceImpl.class);
 	

@@ -1,5 +1,6 @@
 package com.pay;
 
+import com.alibaba.nacos.spring.context.annotation.config.NacosPropertySource;
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,8 +15,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * 演示账号：pay 密码：123456
  * ============小柒2012============
  */
-@EnableDubbo(scanBasePackages  = "com.pay.modules")
 @SpringBootApplication
+@EnableDubbo(scanBasePackages  = "com.pay.modules")
+@NacosPropertySource(dataId = "example", autoRefreshed = true)
 public class Application {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(Application.class);

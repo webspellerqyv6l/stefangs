@@ -6,10 +6,11 @@ import com.pay.common.model.Result;
 import com.pay.modules.ppay.service.WxPayService;
 import com.pay.modules.ppay.util.PayUtils;
 import com.yungouos.pay.common.PayException;
+import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-@Service
+@DubboService(group = "payCloud", retries = 1, timeout = 10000)
 public class WxPayServiceImpl implements WxPayService {
 
     @Autowired

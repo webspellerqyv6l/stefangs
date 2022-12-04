@@ -8,7 +8,7 @@ import com.pay.modules.unionpay.service.IUnionPayService;
 import com.pay.modules.unionpay.util.AcpService;
 import com.pay.modules.unionpay.util.SDKConfig;
 import com.pay.modules.unionpay.util.UnionConfig;
-import org.apache.dubbo.config.annotation.Service;
+import org.apache.dubbo.config.annotation.DubboService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,7 +16,7 @@ import org.springframework.beans.factory.annotation.Value;
 import java.util.HashMap;
 import java.util.Map;
 
-@Service(group = "pay-pay", retries = 1, timeout = 10000)
+@DubboService(group = "payCloud", retries = 1, timeout = 10000)
 public class UnionPayServiceImpl implements IUnionPayService{
 	private static final Logger logger = LoggerFactory.getLogger(UnionPayServiceImpl.class);
 	

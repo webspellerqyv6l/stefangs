@@ -8,7 +8,7 @@ import com.pay.common.util.ZxingUtils;
 import com.pay.modules.wxpay.service.CpWxPayService;
 import com.pay.modules.wxpay.util.*;
 import net.sf.json.JSONObject;
-import org.apache.dubbo.config.annotation.Service;
+import org.apache.dubbo.config.annotation.DubboService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,7 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-@Service(group = "pay-pay", retries = 1, timeout = 10000)
+@DubboService(group = "payCloud", retries = 1, timeout = 10000)
 public class CpWxPayServiceImpl implements CpWxPayService {
 	private static final Logger logger = LoggerFactory.getLogger(CpWxPayServiceImpl.class);
 	
