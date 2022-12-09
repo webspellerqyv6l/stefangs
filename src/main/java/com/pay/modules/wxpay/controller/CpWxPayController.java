@@ -126,8 +126,8 @@ public class CpWxPayController {
 			// ------------------------------
 			// 处理业务开始
 			// ------------------------------
-			String resXml = "";
-			if ("SUCCESS".equals((String) packageParams.get("result_code"))) {
+			String resXml;
+			if ("SUCCESS".equals(packageParams.get("result_code"))) {
 				// 这里是支付成功
 				String orderNo = (String) packageParams.get("out_trade_no");
 				logger.info("微信订单号{}付款成功",orderNo);

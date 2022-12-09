@@ -1,18 +1,13 @@
 package com.pay.modules.wxpay.controller;
 
+import com.pay.common.model.Product;
+import com.pay.common.util.AddressUtils;
+import com.pay.common.util.DateUtils;
 import com.pay.modules.wxpay.service.CpWxPayService;
 import com.pay.modules.wxpay.util.*;
+import com.pay.modules.wxpay.util.mobile.MobileUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-
-import java.io.BufferedOutputStream;
-import java.util.Map;
-import java.util.SortedMap;
-import java.util.TreeMap;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,10 +18,12 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.pay.common.model.Product;
-import com.pay.common.util.AddressUtils;
-import com.pay.common.util.DateUtils;
-import com.pay.modules.wxpay.util.mobile.MobileUtil;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedOutputStream;
+import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 /**
  * 微信H5支付
  * 创建者 科帮网
@@ -42,14 +39,16 @@ public class WxMobilePayController {
 
 	@Autowired
 	private CpWxPayService weixinPayService;
+
 	@Value("${server.context.url}")
 	private String serverUrl;
+
     @Autowired
     private WxPayUtil wxPayUtil;
 	
 	@ApiOperation(value="H5支付(需要公众号内支付)")
 	@RequestMapping(value="pay",method=RequestMethod.POST)
-    public String  pay(Product product,ModelMap map) {
+    public String  pay(Product product) {
 		logger.info("H5支付(需要公众号内支付)");
 		String url =  weixinPayService.wxPayMobile(product);
 		return "redirect:"+url;
@@ -57,7 +56,7 @@ public class WxMobilePayController {
 
 	@ApiOperation(value="公众号H5支付主页")
 	@RequestMapping(value="payPage",method=RequestMethod.GET)
-	public String pay(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public String pay()  {
 		//这里因为无法测试、模板下是个JSP页面、无法正常运行，请自行修改逻辑
 		return "wxPay/payPage";
 	}
