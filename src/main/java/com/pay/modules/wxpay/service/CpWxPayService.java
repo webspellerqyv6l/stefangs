@@ -47,7 +47,7 @@ public interface CpWxPayService {
 	 * 2017年7月31日  科帮网 首次创建
 	 *
 	 */
-	String wxCloseorder(Product product);
+	String wxCloseOrder(Product product);
 	/**
 	 * 下载微信账单
 	 * @Author  科帮网  void
@@ -85,5 +85,5 @@ public interface CpWxPayService {
 	 * 查询订单
 	 * @param product
 	 */
-	void orderquery(Product product);
+	void orderQuery(Product product);
 }

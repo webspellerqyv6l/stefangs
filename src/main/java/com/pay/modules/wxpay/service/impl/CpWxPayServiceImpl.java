@@ -171,7 +171,7 @@ public class CpWxPayServiceImpl implements CpWxPayService {
 	}
 
 	@Override
-	public String wxCloseorder(Product product) {
+	public String wxCloseOrder(Product product) {
 		logger.info("订单号：{}微信关闭订单",product.getOutTradeNo());
 		String  message = Constants.SUCCESS;
 		try {
@@ -185,9 +185,9 @@ public class CpWxPayServiceImpl implements CpWxPayService {
 			String resXml = HttpUtil.postData(WxPayUrl.CLOSE_ORDER_URL, requestXML);
 			Map map = XMLUtil.doXMLParse(resXml);
 			String returnCode = (String) map.get("return_code");
-			if("SUCCESS".equals(returnCode)){
+			if(Constants.SUCCESS.equalsIgnoreCase(returnCode)){
 				String resultCode =  (String) map.get("result_code");
-				if("SUCCESS".equals(resultCode)){
+				if(Constants.SUCCESS.equalsIgnoreCase(resultCode)){
 					logger.info("订单号：{}微信关闭订单成功",product.getOutTradeNo());
 				}else{
 					String errCode =  (String) map.get("err_code");
@@ -293,9 +293,9 @@ public class CpWxPayServiceImpl implements CpWxPayService {
 			String resXml = HttpUtil.postData(WxPayUrl.UNIFIED_ORDER_URL, requestXML);
 			Map map = XMLUtil.doXMLParse(resXml);
 			String returnCode = (String) map.get("return_code");
-			if("SUCCESS".equals(returnCode)){
+			if(Constants.SUCCESS.equalsIgnoreCase(returnCode)){
 				String resultCode = (String) map.get("result_code");
-				if("SUCCESS".equals(resultCode)){
+				if(Constants.SUCCESS.equalsIgnoreCase(resultCode)){
 					logger.info("订单号：{}发起H5支付成功",product.getOutTradeNo());
 					mweb_url = (String) map.get("mweb_url");
 				}else{
@@ -324,7 +324,7 @@ public class CpWxPayServiceImpl implements CpWxPayService {
 	 * 
 	 */
 	@Override
-	public void orderquery(Product product) {
+	public void orderQuery(Product product) {
 		try {
 			// 账号信息
             String key = wxPayUtil.wxPay().getApiKey(); // key
@@ -338,9 +338,9 @@ public class CpWxPayServiceImpl implements CpWxPayService {
 			Map map = XMLUtil.doXMLParse(resXml);
 			String returnCode = (String) map.get("return_code");
 			logger.info(returnCode);
-			if("SUCCESS".equals(returnCode)){
+			if(Constants.SUCCESS.equalsIgnoreCase(returnCode)){
 				String resultCode = (String) map.get("result_code");
-				if("SUCCESS".equals(resultCode)){
+				if(Constants.SUCCESS.equalsIgnoreCase(resultCode)){
 					String tradeState = (String) map.get("trade_state");
 					logger.info(tradeState);
 				}else{
